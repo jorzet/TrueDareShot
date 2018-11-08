@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "781595154680",
+    "firebase_url": "https://truedareshot.firebaseio.com",
+    "project_id": "truedareshot",
+    "storage_bucket": "truedareshot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781595154680:android:7435abdd7368c7d3",
+        "android_client_info": {
+          "package_name": "com.jorzet.truedareshot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "781595154680-ap5i8n9hr8cj6l58g1jdmfq9qhfqq8ec.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jorzet.truedareshot",
+            "certificate_hash": "a0ba4d835b9b45f54f4376dc888b82366dbc6a8a"
+          }
+        },
+        {
+          "client_id": "781595154680-f9758tjiajeg8gvjtbh6ee8jbpkfu8bg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSfNs-3fgsELj1bi7PWDi8o-byevGSsig"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "781595154680-f9758tjiajeg8gvjtbh6ee8jbpkfu8bg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "781595154680-l33bi2i4mkhmhg2sfiarqompju0em6au.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Diegocorp.True-Dare-or-shots"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
