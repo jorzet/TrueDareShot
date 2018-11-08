@@ -17,11 +17,13 @@
 package com.jorzet.truedareshot
 
 import android.support.multidex.MultiDexApplication
+import com.google.firebase.database.FirebaseDatabase
 
 class TrueDareShotApplication: MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
     }
 
 }

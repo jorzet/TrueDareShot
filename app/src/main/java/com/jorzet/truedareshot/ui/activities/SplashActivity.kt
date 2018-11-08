@@ -45,6 +45,7 @@ class SplashActivity : BaseActivityLifeCycle() {
     private fun goContentActivity() {
         val intent = Intent(this, ContentActivity::class.java)
         startActivity(intent)
+        this.finish()
     }
 
 
