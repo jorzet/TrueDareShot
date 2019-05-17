@@ -1,5 +1,5 @@
 /*
- * Copyright [2018] [Jorge Zepeda Tinoco]
+ * Copyright [2019] [Jorge Zepeda Tinoco]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,14 @@ package com.jorzet.truedareshot
 
 import android.support.multidex.MultiDexApplication
 import com.google.firebase.database.FirebaseDatabase
+import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
 
 class TrueDareShotApplication: MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        SharedPreferencesManager(this).setFirstQuestionShown(false)
     }
 
 }

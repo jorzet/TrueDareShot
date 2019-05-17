@@ -2,6 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/home">
+                android:background="@drawable/background">
+	
+	
+	<RelativeLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true">
+		
+		<ImageView
+				android:id="@+id/iv_true_dare_and_shot_main_icon"
+				android:layout_width="wrap_content"
+				android:layout_height="300dp"
+				android:layout_marginTop="50dp"
+				android:src="@drawable/true_dare_and_shot_main_icon"/>
+	    
+	    <TextView
+			    android:id="@+id/tv_developer"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_below="@+id/iv_true_dare_and_shot_main_icon"
+			    android:layout_marginTop="50dp"
+			    android:layout_marginStart="30dp"
+			    android:layout_marginLeft="30dp"
+			    android:layout_centerVertical="true"
+			    android:textSize="20sp"
+			    android:textColor="@android:color/black"
+			    android:text="Desarrollado por: Jorge Zepeda"/>
+	
+	</RelativeLayout>
 
 </RelativeLayout>

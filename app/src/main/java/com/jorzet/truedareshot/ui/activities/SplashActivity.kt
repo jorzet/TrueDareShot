@@ -1,5 +1,5 @@
 /*
- * Copyright [2018] [Jorge Zepeda Tinoco]
+ * Copyright [2019] [Jorge Zepeda Tinoco]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,21 +27,22 @@ import com.jorzet.truedareshot.R
  * jorzet.94@gmail.com
  */
 
-class SplashActivity : BaseActivityLifeCycle() {
+class SplashActivity: BaseActivityLifeCycle() {
 
-    private val TIME_DELAY : Long = 2000
+    private val TIME_DELAY: Long = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        Handler().postDelayed(object : Runnable{
-            override fun run() {
-                goContentActivity()
-            }
+        Handler().postDelayed({
+            goContentActivity()
         }, TIME_DELAY)
     }
 
+    /**
+     *
+     */
     private fun goContentActivity() {
         val intent = Intent(this, ContentActivity::class.java)
         startActivity(intent)

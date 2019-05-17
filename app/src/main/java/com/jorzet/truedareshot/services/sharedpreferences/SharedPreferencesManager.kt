@@ -19,6 +19,7 @@ class SharedPreferencesManager(context: Context) {
      */
     private val SHARED_PREFERENCES_NAME : String = "shared_preferences_name"
     private val JSON_QUESTION : String = "json_question"
+    private val FIRST_QUESTION_SHOWN = "first_question_shown"
 
     /**
      * This method removes all sharedPreferences session data
@@ -43,6 +44,17 @@ class SharedPreferencesManager(context: Context) {
     fun getJsonQuestion() : String? {
         val prefs = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
         return prefs.getString(JSON_QUESTION, null)
+    }
+
+    fun setFirstQuestionShown(isFirstQuestionShown: Boolean) {
+        val editor = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
+        editor.putBoolean(FIRST_QUESTION_SHOWN, isFirstQuestionShown)
+        editor.apply()
+    }
+
+    fun isFirstQuestionShown(): Boolean {
+        val prefs = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(FIRST_QUESTION_SHOWN, false)
     }
 
 }

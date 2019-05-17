@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import com.jorzet.truedareshot.R
 
 /**
@@ -14,10 +16,22 @@ import com.jorzet.truedareshot.R
 
 class QuestionFragment: BaseFragment() {
 
-    /*
+    /**
      * Tags
      */
     private val TAG : String = "QuestionFragment"
+
+    /**
+     * UI accessors
+     */
+    private lateinit var mQuestionType: TextView
+    private lateinit var mUserName: TextView
+    private lateinit var mQuestionLevel: TextView
+    private lateinit var mQuestionText: TextView
+    private lateinit var mButtonWaitingContainer: View
+    private lateinit var mTrueButton: Button
+    private lateinit var mShotButton: Button
+    private lateinit var mDareButton: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -27,6 +41,60 @@ class QuestionFragment: BaseFragment() {
 
         val rootView = inflater.inflate(R.layout.questions_fragment, container, false)
 
+        mQuestionType = rootView.findViewById(R.id.tv_question_type)
+        mUserName = rootView.findViewById(R.id.tv_user)
+        mQuestionLevel = rootView.findViewById(R.id.tv_question_level)
+        mQuestionText = rootView.findViewById(R.id.tv_question_text)
+        mButtonWaitingContainer = rootView.findViewById(R.id.rl_button_is_waitin_container)
+        mTrueButton = rootView.findViewById(R.id.btn_true_image)
+        mShotButton = rootView.findViewById(R.id.btn_shot_image)
+        mDareButton = rootView.findViewById(R.id.btn_dare_image)
+
+        mTrueButton.setOnClickListener(mTrueButtonListener)
+        mShotButton.setOnClickListener(mShotButtonListener)
+        mDareButton.setOnClickListener(mDareButtonListener)
+
+        if (isFirstQuestionShown()) {
+            showQuestionText()
+        } else {
+            showButtonIsWaiting()
+            mQuestionType.text = resources.getString(R.string.play_text)
+        }
+
         return rootView
     }
+
+    private val mTrueButtonListener = View.OnClickListener {
+        showQuestionText()
+        setFirstQuestionShown(true)
+
+        mQuestionType.text = resources.getString(R.string.true_text)
+    }
+
+    private val mShotButtonListener = View.OnClickListener {
+        showQuestionText()
+        setFirstQuestionShown(true)
+
+        mQuestionType.text = resources.getString(R.string.shot_text)
+    }
+
+    private val mDareButtonListener = View.OnClickListener {
+        showQuestionText()
+        setFirstQuestionShown(true)
+
+        mQuestionType.text = resources.getString(R.string.dare_text)
+    }
+
+    private fun showQuestionText() {
+        mButtonWaitingContainer.visibility = View.GONE
+        mQuestionLevel.visibility = View.VISIBLE
+        mQuestionText.visibility = View.VISIBLE
+    }
+
+    private fun showButtonIsWaiting() {
+        mButtonWaitingContainer.visibility = View.VISIBLE
+        mQuestionLevel.visibility = View.GONE
+        mQuestionText.visibility = View.GONE
+    }
+
 }

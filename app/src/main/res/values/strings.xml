@@ -1,3 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TrueDareShot</string>
+    
+    <!--QUESTION-->
+    <string name="turn_text">Turno:</string>
+    <string name="button_waiting">Un botón te espera</string>
+    <string name="play_text">Jugar</string>
+    <string name="true_text">Verdad</string>
+    <string name="shot_text">Shot</string>
+    <string name="dare_text">Reto</string>
 </resources>

@@ -16,7 +16,9 @@
 
 package com.jorzet.truedareshot.fragments
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
+import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
 
 /**
  * @author
@@ -26,5 +28,20 @@ import android.support.v4.app.Fragment
 
 open class BaseFragment: Fragment() {
 
+    private lateinit var mSharedPreferencesManager: SharedPreferencesManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mSharedPreferencesManager = SharedPreferencesManager(context!!)
+    }
+
+
+    fun isFirstQuestionShown(): Boolean {
+        return mSharedPreferencesManager.isFirstQuestionShown();
+    }
+
+    fun setFirstQuestionShown(isFirstQuestionShown: Boolean) {
+        mSharedPreferencesManager.setFirstQuestionShown(isFirstQuestionShown)
+    }
 
 }
