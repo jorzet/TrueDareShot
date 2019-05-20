@@ -16,8 +16,10 @@
 
 package com.jorzet.truedareshot.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import com.jorzet.truedareshot.services.firebase.FirebaseRequestManager
 import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
 
 /**
@@ -26,13 +28,15 @@ import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManag
  * jorzet.94@gmail.com
  */
 
-open class BaseFragment: Fragment() {
+abstract class BaseFragment: Fragment() {
 
     private lateinit var mSharedPreferencesManager: SharedPreferencesManager
+    private lateinit var mRequestManager : FirebaseRequestManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mSharedPreferencesManager = SharedPreferencesManager(context!!)
+        mRequestManager = FirebaseRequestManager(activity as Activity)
     }
 
 
@@ -43,5 +47,12 @@ open class BaseFragment: Fragment() {
     fun setFirstQuestionShown(isFirstQuestionShown: Boolean) {
         mSharedPreferencesManager.setFirstQuestionShown(isFirstQuestionShown)
     }
+
+    fun requestCategories() {
+        mRequestManager.requestGetCategories()
+    }
+
+    open fun onGetCategoriesSuccess() {}
+    open fun onGetCategoriesFail(throwable: Throwable) {}
 
 }

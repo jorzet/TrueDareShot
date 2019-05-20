@@ -1,5 +1,5 @@
 /*
- * Copyright [2018] [Jorge Zepeda Tinoco]
+ * Copyright [2019] [Jorge Zepeda Tinoco]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,20 +21,15 @@ import com.google.gson.annotations.SerializedName
 
 /**
  * @author
- * Created by Jorge Zepeda Tinoco on 08/11/18.
+ * Created by Jorge Zepeda Tinoco on 19/05/19.
  * jorzet.94@gmail.com
  */
 
-data class Question(
-    @SerializedName("status")
+data class Player (
+    @SerializedName("player_id")
     @Expose
-    var status : Boolean = false,
-    @SerializedName("subcategoria")
+    var playerId: String = "",
+    @SerializedName("player_name")
     @Expose
-    var subcategoria : Subcategory,
-    @SerializedName("question")
-    @Expose
-    var question : String,
-
-    var questionId : Int = 0
+    var playerName: String = ""
 )

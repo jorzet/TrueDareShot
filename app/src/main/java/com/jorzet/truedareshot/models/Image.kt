@@ -16,26 +16,39 @@
 
 package com.jorzet.truedareshot.models
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-
 /**
  * @author
  * Created by Jorge Zepeda Tinoco on 19/05/19.
  * jorzet.94@gmail.com
  */
 
-data class Category (
-    @SerializedName("category_id")
-    @Expose
-    var categoryId: String = "",
-    @SerializedName("category_name")
-    @Expose
-    var categoryName: String = "",
-    @SerializedName("category_active")
-    @Expose
-    var categoryActive: Boolean = false,
-    @SerializedName("subcategories")
-    @Expose
-    var questionsType: List<Subcategory> = arrayListOf()
-)
+class Image {
+    private var mImageId : Integer = Integer(0)
+    private var mIsDownloadable : Boolean = false
+    private var mNameInStorage : String = ""
+
+    fun setImageId(imageId : Integer) {
+        this.mImageId = imageId
+    }
+
+    fun getImageId() : Integer {
+        return this.mImageId
+    }
+
+    fun setIsDownloadable(isDownloadable : Boolean) {
+        this.mIsDownloadable = isDownloadable
+    }
+
+    fun isDownloadable() : Boolean {
+        return this.mIsDownloadable
+    }
+
+    fun setNameInStorage(nameInStorage : String) {
+        this.mNameInStorage = nameInStorage
+    }
+
+    fun getNameInStorage() : String {
+        return this.mNameInStorage
+    }
+
+}
