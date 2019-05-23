@@ -18,6 +18,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+    
+        <meta-data
+                android:name="fontProviderRequests"
+                android:value="Noto Color Emoji Compat" />
 
         <activity
                 android:name=".ui.activities.SplashActivity"

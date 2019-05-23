@@ -37,5 +37,6 @@ data class Category (
     var categoryActive: Boolean = false,
     @SerializedName("subcategories")
     @Expose
-    var questionsType: List<Subcategory> = arrayListOf()
+    var subcategoryIdList: List<String> = arrayListOf(),
+    var subcategoriesList: ArrayList<Subcategory> = arrayListOf()
 )

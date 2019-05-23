@@ -37,7 +37,7 @@ open class AbstractRequestTask<A, B, C> : AsyncTask<A, B, C>() {
     }
 
     interface OnRequestListenerFailed {
-        fun onFailed(result: Throwable)
+        fun onFailed(throwable: Throwable)
     }
 
     interface OnDownloadStatusListener {

@@ -15,5 +15,10 @@ data class Subcategory (
     var subcategoryName: String = "",
     @SerializedName("subcategory_active")
     @Expose
-    var aubcategoryActive: Boolean = false
+    var aubcategoryActive: Boolean = false,
+    @SerializedName("emoji_text")
+    @Expose
+    var emojiText: String = "",
+
+    var subcategoryId: String = ""
 )

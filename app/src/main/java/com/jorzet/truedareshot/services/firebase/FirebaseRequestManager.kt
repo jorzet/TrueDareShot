@@ -19,6 +19,9 @@ package com.jorzet.truedareshot.services.firebase
 import android.app.Activity
 import com.jorzet.truedareshot.models.Category
 import com.jorzet.truedareshot.models.Question
+import com.jorzet.truedareshot.models.Subcategory
+import com.jorzet.truedareshot.request.AbstractRequestTask
+import com.jorzet.truedareshot.request.CategoriesTask
 
 /**
  * @author
@@ -41,12 +44,49 @@ class FirebaseRequestManager(activity : Activity) {
         fun onGetCategoriesError(throwable: Throwable)
     }
 
+    interface OnGetSubcategoriesListener {
+        fun onGetSubcategoriesLoaded(subcategories: List<Subcategory>)
+        fun onGetSubcategoriesError(throwable: Throwable)
+    }
+
     fun requestGetQuestion(onGetQuestionListener: OnGetQuestionListener) {
 
     }
 
     fun requestGetCategories(onGetCategoriesListener: OnGetCategoriesListener) {
+        val categoryTask = CategoriesTask()
 
+        categoryTask.setOnRequestSuccess(object: AbstractRequestTask.OnRequestListenerSuccess {
+            override fun onSuccess(result: Any) {
+                onGetCategoriesListener.onGetCategoriesLoaded(result as List<Category>)
+            }
+        })
+
+        categoryTask.setOnRequestFailed(object: AbstractRequestTask.OnRequestListenerFailed {
+            override fun onFailed(throwable: Throwable) {
+                onGetCategoriesListener.onGetCategoriesError(throwable)
+            }
+        })
+
+        categoryTask.requestGetCategories()
+    }
+
+    fun requestGetSubcategories(onGetSubcategoriesListener: OnGetSubcategoriesListener) {
+        val categoryTask = CategoriesTask()
+
+        categoryTask.setOnRequestSuccess(object: AbstractRequestTask.OnRequestListenerSuccess {
+            override fun onSuccess(result: Any) {
+                onGetSubcategoriesListener.onGetSubcategoriesLoaded(result as List<Subcategory>)
+            }
+        })
+
+        categoryTask.setOnRequestFailed(object: AbstractRequestTask.OnRequestListenerFailed {
+            override fun onFailed(throwable: Throwable) {
+                onGetSubcategoriesListener.onGetSubcategoriesError(throwable)
+            }
+        })
+
+        categoryTask.requestGetSubcategories()
     }
 
 }
