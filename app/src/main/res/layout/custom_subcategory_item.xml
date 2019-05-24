@@ -16,14 +16,14 @@
 			android:textSize="20sp"
 			android:text="Inocentes"/>
 	
-	<android.support.text.emoji.widget.EmojiTextView
+	<EditText
 			android:id="@+id/iv_subcategory_emoji"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
-			android:ems="10"
-			android:hint="Enter emoji text"
-			android:inputType="textPersonName"
+			android:editable="false"
+			android:clickable="false"
+			android:background="@null"
 			android:layout_marginStart="10dp"
 			android:layout_marginLeft="10dp"
 			android:layout_toRightOf="@+id/tv_subcategory"

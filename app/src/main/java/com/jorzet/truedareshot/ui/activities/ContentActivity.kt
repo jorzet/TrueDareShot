@@ -41,7 +41,7 @@ class ContentActivity: BaseActivityLifeCycle() {
     /*
      * Tags
      */
-    private val TAB_COUNT : Int = 5
+    private val TAG : String = "ContentActivity"
 
     /*
      * UI accessors
@@ -66,7 +66,7 @@ class ContentActivity: BaseActivityLifeCycle() {
         mBottomTabLayout.addTab(mBottomTabLayout.newTab().setTag(""))
         mBottomTabLayout.addTab(mBottomTabLayout.newTab().setTag(""))
 
-        mViewPagerAdapter = ViewPagerAdapter(baseContext, supportFragmentManager, TAB_COUNT)
+        mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, mBottomTabLayout.tabCount)
         mViewPager.setAdapter(mViewPagerAdapter)
         mViewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(mBottomTabLayout))
 

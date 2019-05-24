@@ -17,11 +17,8 @@
 package com.jorzet.truedareshot.ui.activities
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.support.text.emoji.EmojiCompat
-import android.support.text.emoji.FontRequestEmojiCompatConfig
 import com.jorzet.truedareshot.R
 
 /**

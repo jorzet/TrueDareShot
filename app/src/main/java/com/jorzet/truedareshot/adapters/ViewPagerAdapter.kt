@@ -28,8 +28,7 @@ import com.jorzet.truedareshot.fragments.*
  * jorzet.94@gmail.com
  */
 
-class ViewPagerAdapter(context : Context, fm: FragmentManager, tabCount : Int) : FragmentStatePagerAdapter(fm) {
-    private val mContext : Context = context
+class ViewPagerAdapter(fm: FragmentManager, tabCount : Int) : FragmentStatePagerAdapter(fm) {
     private val mTotalPages : Int = tabCount
 
     override fun getItem(position: Int): Fragment {

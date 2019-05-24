@@ -81,12 +81,12 @@ class DownloadImages: Service() {
             })
 
             downloadImageTask.setOnRequestFailed(object : AbstractRequestTask.OnRequestListenerFailed {
-                override fun onFailed(result: Throwable) {
+                override fun onFailed(throwable: Throwable) {
 
                     bi.putExtra(DOWNLOAD_ERROR, true)
 
-                    if (result is GenericError &&
-                        result.errorType.equals(ErrorType.CANNOT_DOWNLOAD_CONTENT_FILE_NOT_FOUND)) {
+                    if (throwable is GenericError &&
+                        throwable.errorType.equals(ErrorType.CANNOT_DOWNLOAD_CONTENT_FILE_NOT_FOUND)) {
                         bi.putExtra(ERROR_WHEN_DOWNLOAD, ErrorType.CANNOT_DOWNLOAD_CONTENT_FILE_NOT_FOUND)
                     }
 
