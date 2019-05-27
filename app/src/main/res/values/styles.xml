@@ -12,5 +12,10 @@
         <item name="android:textSize">11sp</item>
         <item name="android:textStyle">normal</item>
     </style>
+    
+    <style name="TDSDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <!-- DEFINE LIGHT THEME FOR DIALOG -->
+    </style>
 
 </resources>

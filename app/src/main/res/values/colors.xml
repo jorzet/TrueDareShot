@@ -4,6 +4,20 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     
+    <color name="background">#EEF2F6</color>
+    
     <color name="soft_blue">#2D89CB</color>
     <color name="hard_blue">#101E45</color>
+    
+    <color name="soft_green">#B0DC3A</color>
+    <color name="hard_green">#92AA2D</color>
+    
+    <color name="soft_orange">#F7921E</color>
+    <color name="hard_orange">#BF4024</color>
+    
+    <color name="dialog_line_color">#959595</color>
+    
+    <color name="choose_color_gradient_start">#ffff00</color>
+    <color name="choose_color_gradient_end">#455a64</color>
+    <color name="choose_color_gradient_centre">#ff5722</color>
 </resources>

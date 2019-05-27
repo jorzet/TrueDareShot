@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		>
+	
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/background">
+		
+		<RelativeLayout
+				android:id="@+id/rl_title_container"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true">
+			
+			<EditText
+					android:id="@+id/et_player_nick_name"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="20dp"
+					android:layout_marginStart="20dp"
+					android:layout_marginEnd="20dp"
+					android:hint="Nick Name"
+					android:gravity="center"
+					android:textColorHint="@android:color/darker_gray"/>
+			
+			<ProgressBar
+					android:id="@+id/pb_choose_color"
+					style="?android:attr/progressBarStyleHorizontal"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_below="@+id/et_player_nick_name"
+					android:layout_marginTop="20dp"
+					android:layout_marginStart="20dp"
+					android:layout_marginEnd="20dp"
+					android:indeterminate="false"
+					android:max="100"
+					android:progress="0"
+					android:progressDrawable="@drawable/custom_color_progress_bar" />/>
+			
+		</RelativeLayout>
+		
+		<ImageView
+				android:id="@+id/iv_horizontal_line"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:layout_below="@+id/rl_title_container"
+				android:layout_marginTop="60dp"
+				android:background="@color/dialog_line_color"/>
+		
+		<ImageView
+				android:id="@+id/iv_vertical_line"
+				android:layout_width="2dp"
+				android:layout_height="50dp"
+				android:layout_centerHorizontal="true"
+				android:layout_below="@+id/iv_horizontal_line"
+				android:layout_marginTop="15dp"
+				android:layout_marginBottom="15dp"
+				android:background="@color/dialog_line_color"/>
+		
+		
+		
+		<RelativeLayout
+				android:id="@+id/rl_cancel_container"
+				android:layout_width="match_parent"
+				android:layout_height="50dp"
+				android:layout_below="@+id/iv_horizontal_line"
+				android:layout_marginTop="15dp"
+				android:layout_marginBottom="15dp"
+				android:layout_toLeftOf="@+id/iv_vertical_line"
+				android:layout_toStartOf="@+id/iv_vertical_line">
+			<Button
+					android:id="@+id/btn_cencel"
+					android:layout_width="130dp"
+					android:layout_height="wrap_content"
+					android:layout_centerInParent="true"
+					android:background="@drawable/cancel_button_background"
+					android:text="Cancelar"/>
+		</RelativeLayout>
+		
+		
+		<RelativeLayout
+				android:id="@+id/rl_save_container"
+				android:layout_width="match_parent"
+				android:layout_height="50dp"
+				android:layout_below="@+id/iv_horizontal_line"
+				android:layout_marginTop="15dp"
+				android:layout_marginBottom="15dp"
+				android:layout_toRightOf="@+id/iv_vertical_line"
+				android:layout_toEndOf="@+id/iv_vertical_line">
+			<Button
+					android:id="@+id/btn_save_player"
+					android:layout_width="130dp"
+					android:layout_height="wrap_content"
+					android:layout_centerInParent="true"
+					android:background="@drawable/save_player_button_background"
+					android:text="Guardar"/>
+		</RelativeLayout>
+	
+	</RelativeLayout>
+
+</RelativeLayout>
