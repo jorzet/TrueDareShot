@@ -74,7 +74,7 @@
 				android:layout_toLeftOf="@+id/iv_vertical_line"
 				android:layout_toStartOf="@+id/iv_vertical_line">
 			<Button
-					android:id="@+id/btn_cencel"
+					android:id="@+id/btn_cancel"
 					android:layout_width="130dp"
 					android:layout_height="wrap_content"
 					android:layout_centerInParent="true"

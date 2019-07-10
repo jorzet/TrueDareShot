@@ -31,8 +31,5 @@ data class Player (
     var playerId: String = "",
     @SerializedName("player_name")
     @Expose
-    var playerName: String = "",
-    @SerializedName("player_emoji")
-    @Expose
-    var playerEmoji: String = ""
+    var playerName: String = ""
 )

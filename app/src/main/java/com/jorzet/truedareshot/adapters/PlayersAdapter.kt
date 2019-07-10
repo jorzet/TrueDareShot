@@ -20,7 +20,7 @@ class PlayersAdapter(context: Context, players: List<Player>) : BaseAdapter() {
     /**
      * Model
      */
-    private val mPlayers: List<Player> = players
+    val mPlayers: List<Player> = players
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -28,14 +28,9 @@ class PlayersAdapter(context: Context, players: List<Player>) : BaseAdapter() {
 
         val playerView = LayoutInflater.from(mContext).inflate(R.layout.custom_player_item, null, false)
 
-        playerView.tv_player_name.text = currentPlayer.playerName
+        val nickName = unicodeToEmoji(currentPlayer.playerName)
 
-        if (currentPlayer.playerEmoji.isNotEmpty()) {
-            val hexString = currentPlayer.playerEmoji.replace("U+", "")
-            val emoji = String(Character.toChars(Integer.parseInt(hexString, 16)))
-            playerView.ed_player_emoji.text.append(emoji);
-        }
-
+        playerView.tv_player_name.text = nickName
 
         return playerView
     }
@@ -50,6 +45,33 @@ class PlayersAdapter(context: Context, players: List<Player>) : BaseAdapter() {
 
     override fun getCount(): Int {
         return mPlayers.size
+    }
+
+    private fun unicodeToEmoji(playerNickName: String): String {
+
+
+        val playerNameSplited = playerNickName.split("U+").toMutableList()
+        var playerName = playerNameSplited[0]
+
+        if (playerNameSplited.size > 1) {
+            for (i in 1 .. playerNameSplited.size - 1) {
+                playerNameSplited[i] = "U+" + playerNameSplited[i]
+                val withoutSpaces = playerNameSplited[i].replace(" ", "")
+                if (withoutSpaces.length == 7) {
+                    val utf = playerNameSplited[i].substring(0, 7)
+
+                    val hexString = utf.replace("U+", "").replace(" ", "")
+                    val emoji = String(Character.toChars(Integer.parseInt(hexString, 16)))
+
+                    playerNameSplited[i].replace(utf, emoji)
+
+                }
+
+                playerName += playerNameSplited[i]
+            }
+        }
+
+        return playerName
     }
 
 }

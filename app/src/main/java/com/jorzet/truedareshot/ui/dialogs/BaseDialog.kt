@@ -15,29 +15,31 @@ open class BaseDialog: DialogFragment() {
     /*
      * Objects
      */
-    private var mOnDialogListener : OnDialogListener? = null
-    private lateinit var mDialogType: DialogType
+    protected var mOnDialogListener : OnDialogListener? = null
+    protected lateinit var mDialogType: DialogType
 
     /*
      * interface to set listeners
      */
     interface OnDialogListener {
         fun onConfirmationCancel()
-        fun onConfirmationNeutral()
-        fun onConfirmationAccept()
+        fun onConfirmationNeutral(arguments: Bundle)
+        fun onConfirmationAccept(arguments: Bundle)
     }
 
     companion object {
-        fun newInstance() {
-
-        }
+        val REQUEST_CODE: String = "request_code"
+        val DIALOG_TYPE: String = "dialog_type"
+        val ARG_IS_LISTENER_ACTIVITY: String = "is_listener_activity"
+        val NICK_NAME: String = "nick_name"
+        val PLAYER_ID: String = "player_id"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = LayoutInflater.from(activity)
+        val inflater = LayoutInflater.from(context)
         val rootView = onCreateView(inflater, null, savedInstanceState)
 
-        val dialog = Dialog(activity, R.style.TDSDialog)
+        val dialog = Dialog(context, R.style.TDSDialog)
         dialog.setContentView(rootView)
 
         return dialog
@@ -45,7 +47,7 @@ open class BaseDialog: DialogFragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is FragmentActivity) {
+        if (arguments!!.getBoolean(ARG_IS_LISTENER_ACTIVITY)) {
             mOnDialogListener = activity as OnDialogListener;
         } else {
             mOnDialogListener = targetFragment as OnDialogListener
@@ -69,6 +71,7 @@ open class BaseDialog: DialogFragment() {
         if (mOnDialogListener != null) {
             mOnDialogListener!!.onConfirmationCancel()
         }
+        dismiss()
     }
 
 }
