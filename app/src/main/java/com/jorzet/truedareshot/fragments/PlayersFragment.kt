@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.TextView
 import com.jorzet.truedareshot.R
@@ -38,7 +39,7 @@ import kotlin.collections.ArrayList
  * jorzet.94@gmail.com
  */
 
-class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener{
+class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener {
 
     /*
      * Tags
@@ -84,18 +85,30 @@ class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener{
         if (players.isNotEmpty()) {
             showPlayerList(true)
             mPlayerAdapter = PlayersAdapter(context!!, players)
+            mPlayerAdapter.mOnPlayerClickListener = mPlayersItemClickListener
             mPlayersListView.adapter = mPlayerAdapter
+
         } else {
             showPlayerList(false)
         }
+
 
         return rootView
     }
 
     private val mAddPlayersButtonListener = View.OnClickListener {
-        AddEditPlayerDialog.newInstance(REQUEST_ADD_PLAYER, null,
+        AddEditPlayerDialog.newInstance(REQUEST_ADD_PLAYER, null, null,
             DialogType.ACCEPT_CANCEL_DIALOG, this)
-            .show(fragmentManager!!, "networkError")
+            .show(fragmentManager!!, "add_edit_dialog")
+    }
+
+    private val mPlayersItemClickListener = object: PlayersAdapter.OnPlayerClickListener{
+        override fun onPlayerClick(selectedPlayer: Player) {
+            AddEditPlayerDialog.newInstance(
+                REQUEST_EDIT_PLAYER, selectedPlayer.playerName, selectedPlayer.playerId,
+                DialogType.ACCEPT_CANCEL_DIALOG, this@PlayersFragment)
+                .show(fragmentManager!!, "add_edit_dialog")
+        }
     }
 
     @Suppress("SENSELESS_COMPARISON")
@@ -127,11 +140,11 @@ class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener{
             REQUEST_EDIT_PLAYER -> {
                 val id = arguments.getString(BaseDialog.PLAYER_ID, "")
                 if (id != null && id.isNotEmpty()) {
-                    val playerId = "p{$id}"
                     for (player in mPlayerAdapter.mPlayers) {
-                        if (player.playerId.equals(playerId)) {
+                        if (player.playerId.equals(id)) {
                             player.playerName = arguments.getString(BaseDialog.NICK_NAME, "")
                             mPlayerAdapter = PlayersAdapter(context!!, mPlayerAdapter.mPlayers)
+                            mPlayerAdapter.mOnPlayerClickListener = mPlayersItemClickListener
                             mPlayersListView.adapter = mPlayerAdapter
                             return
                         }
@@ -140,11 +153,11 @@ class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener{
             }
             REQUEST_ADD_PLAYER -> {
                 val id = getLastId(mPlayerAdapter.mPlayers) + 1
-                val newPlayer = Player("p{$id}", arguments.getString(BaseDialog.NICK_NAME, ""))
-
+                val newPlayer = Player("p$id", arguments.getString(BaseDialog.NICK_NAME, ""))
                 val players = mPlayerAdapter.mPlayers as ArrayList
                 players.add(newPlayer)
                 mPlayerAdapter = PlayersAdapter(context!!, players)
+                mPlayerAdapter.mOnPlayerClickListener = mPlayersItemClickListener
                 mPlayersListView.adapter = mPlayerAdapter
             }
         }

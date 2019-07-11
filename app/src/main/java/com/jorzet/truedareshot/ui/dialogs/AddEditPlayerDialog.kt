@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.models.enums.DialogType
+import com.jorzet.truedareshot.utils.Utils
 
 class AddEditPlayerDialog: BaseDialog() {
 
@@ -20,12 +21,14 @@ class AddEditPlayerDialog: BaseDialog() {
     private lateinit var mAcceptButton: Button
 
     companion object {
-        fun newInstance(requestCode: Int, playerId: String?, dialogType: DialogType, onDialogListener: OnDialogListener) : AddEditPlayerDialog {
+        fun newInstance(requestCode: Int, playerNickName: String?, playerId: String?, dialogType: DialogType,
+                        onDialogListener: OnDialogListener) : AddEditPlayerDialog {
             val addEditPlayerDialog = AddEditPlayerDialog()
             val bundle = Bundle()
 
             bundle.putInt(REQUEST_CODE, requestCode)
             bundle.putString(PLAYER_ID, playerId)
+            bundle.putString(NICK_NAME, playerNickName)
 
             if (onDialogListener is Activity) {
                 bundle.putBoolean(ARG_IS_LISTENER_ACTIVITY, true)
@@ -56,6 +59,12 @@ class AddEditPlayerDialog: BaseDialog() {
 
         if (arguments != null) {
             val dialogType = (arguments as Bundle).getSerializable(DIALOG_TYPE)
+            val nickName = (arguments as Bundle).getString(NICK_NAME)
+
+            if (nickName != null) {
+                val playerNickName = Utils.unicodeToEmoji(nickName)
+                mNickNameEditText.setText(playerNickName)
+            }
         }
 
         return rootView

@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="40dp">
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
 
-	<TextView
-			android:id="@+id/tv_player_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+	<EditText
+			android:id="@+id/ed_player_name"
+			android:layout_width="match_parent"
+			android:layout_height="35dp"
+			android:clickable="true"
+			android:focusable="false"
+			android:editable="false"
+			android:background="@null"
 			android:layout_marginStart="20dp"
 			android:layout_marginLeft="20dp"
 			android:layout_centerVertical="true"
 			android:textColor="@android:color/black"
 			android:textSize="20sp"/>
-	
-	<EditText
-			android:id="@+id/ed_player_emoji"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_toRightOf="@+id/tv_player_name"
-			android:layout_toEndOf="@+id/tv_player_name"
-			android:clickable="false"
-			android:editable="false"
-			android:background="@null"
-			android:layout_marginStart="20dp"
-			android:layout_marginLeft="20dp"
-			android:layout_centerVertical="true" />
 	
 </RelativeLayout>
