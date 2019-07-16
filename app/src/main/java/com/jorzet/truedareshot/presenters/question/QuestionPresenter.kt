@@ -14,21 +14,32 @@
  * limitations under the License.
  */
 
-package com.jorzet.truedareshot
+package com.jorzet.truedareshot.presenters.question
 
-import android.support.multidex.MultiDexApplication
+import com.jorzet.truedareshot.models.Player
+import com.jorzet.truedareshot.presenters.BasePresenter
+import com.jorzet.truedareshot.views.QuestionView
 
-import com.google.firebase.database.FirebaseDatabase
-import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
+/**
+ * @author
+ * Created by Jorge Zepeda Tinoco on 16/07/19.
+ * jorzet.94@gmail.com
+ */
 
-class TrueDareShotApplication: MultiDexApplication() {
+interface QuestionPresenter: BasePresenter<QuestionView> {
 
-    private val TAG: String = "TrueDareShotApplication"
+    /**
+     *
+     */
+    fun getCurrentPlayer(): Player?
 
-    override fun onCreate() {
-        super.onCreate()
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
-        SharedPreferencesManager.getInstance(this).setFirstQuestionShown(false)
-    }
+    /**
+     *
+     */
+    fun requestGroup()
 
+    /**
+     *
+     */
+    fun requestQuestion()
 }

@@ -18,20 +18,29 @@ package com.jorzet.truedareshot.utils
 
 import com.jorzet.truedareshot.R
 
+/**
+ * @author
+ * Created by Jorge Zepeda Tinoco on 16/07/19.
+ * jorzet.94@gmail.com
+ */
+
 class ImagesUtil {
+
     companion object {
-        /*
-         * Define all icon resorces for bottom tab layout
+        /**
+         * Define all icon resources for selected bottom tab layout
          */
-        val mBottomSelectedIcons = intArrayOf(
+        val mBottomSelectedIcons: IntArray = intArrayOf(
             R.drawable.ic_developers_orange,
             R.drawable.ic_players_orange,
             R.drawable.ic_add_question_orange,
             R.drawable.ic_configuration_orange,
             R.drawable.ic_add_dare_orange
         )
-
-        val mBottomUnselectedIcons = intArrayOf(
+        /**
+         * Define all icon resources for unselected bottom tab layout
+         */
+        val mBottomUnselectedIcons: IntArray = intArrayOf(
             R.drawable.ic_developers_gray,
             R.drawable.ic_players_gray,
             R.drawable.ic_add_question_gray,

@@ -1,3 +1,19 @@
+/*
+ * Copyright [2019] [Jorge Zepeda Tinoco]
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.jorzet.truedareshot.ui.dialogs
 
 import android.app.Dialog
@@ -5,11 +21,16 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.models.enums.DialogType
+
+/**
+ * @author
+ * Created by Jorge Zepeda Tinoco on 16/07/19.
+ * jorzet.94@gmail.com
+ */
 
 open class BaseDialog: DialogFragment() {
     /*
@@ -27,20 +48,23 @@ open class BaseDialog: DialogFragment() {
         fun onConfirmationAccept(arguments: Bundle)
     }
 
+    /**
+     * Constants
+     */
     companion object {
-        val REQUEST_CODE: String = "request_code"
-        val DIALOG_TYPE: String = "dialog_type"
-        val ARG_IS_LISTENER_ACTIVITY: String = "is_listener_activity"
-        val NICK_NAME: String = "nick_name"
-        val PLAYER_ID: String = "player_id"
+        const val REQUEST_CODE: String = "request_code"
+        const val DIALOG_TYPE: String = "dialog_type"
+        const val ARG_IS_LISTENER_ACTIVITY: String = "is_listener_activity"
+        const val NICK_NAME: String = "nick_name"
+        const val PLAYER_ID: String = "player_id"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(context)
         val rootView = onCreateView(inflater, null, savedInstanceState)
 
-        val dialog = Dialog(context, R.style.TDSDialog)
-        dialog.setContentView(rootView)
+        val dialog = Dialog(context!!, R.style.TDSDialog)
+        dialog.setContentView(rootView!!)
 
         return dialog
     }
@@ -48,7 +72,7 @@ open class BaseDialog: DialogFragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (arguments!!.getBoolean(ARG_IS_LISTENER_ACTIVITY)) {
-            mOnDialogListener = activity as OnDialogListener;
+            mOnDialogListener = activity as OnDialogListener
         } else {
             mOnDialogListener = targetFragment as OnDialogListener
         }

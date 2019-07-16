@@ -29,11 +29,12 @@ import android.net.wifi.WifiManager
  */
 
 class NetworkUtil {
+
     companion object {
         fun isConnected(context : Context) : Boolean {
             val connectivityManager =  context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = connectivityManager.getActiveNetworkInfo()
-            return networkInfo != null && networkInfo.isConnectedOrConnecting();
+            return networkInfo != null && networkInfo.isConnectedOrConnecting
         }
 
         fun isWifiDisable(context: Context) : Boolean {

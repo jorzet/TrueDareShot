@@ -28,12 +28,12 @@ import com.jorzet.truedareshot.R
  * jorzet.94@gmail.com
  */
 
-class DevelopersFragment: BaseFragment() {
+/**
+ * Tags
+ */
+private const val TAG : String = "AddQuestionFragment"
 
-    /*
-     * Tags
-     */
-    private val TAG : String = "AddQuestionFragment"
+class DevelopersFragment: BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 

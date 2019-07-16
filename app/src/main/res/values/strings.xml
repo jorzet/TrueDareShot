@@ -3,6 +3,7 @@
     <string name="app_name">TrueDareShot</string>
     
     <!--QUESTION-->
+    <string name="group_text">Grupo:</string>
     <string name="turn_text">Turno:</string>
     <string name="button_waiting">Un botón te espera</string>
     <string name="play_text">Jugar</string>

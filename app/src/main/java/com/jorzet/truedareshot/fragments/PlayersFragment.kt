@@ -16,11 +16,12 @@
 
 package com.jorzet.truedareshot.fragments
 
+import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.Button
 import android.widget.TextView
 import com.jorzet.truedareshot.R
@@ -28,9 +29,11 @@ import com.jorzet.truedareshot.adapters.PlayersAdapter
 import com.jorzet.truedareshot.components.NonScrollListView
 import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.enums.DialogType
+import com.jorzet.truedareshot.presenters.player.PlayersPresenter
+import com.jorzet.truedareshot.presenters.player.PlayersPresenterImp
 import com.jorzet.truedareshot.ui.dialogs.AddEditPlayerDialog
 import com.jorzet.truedareshot.ui.dialogs.BaseDialog
-import java.util.*
+import com.jorzet.truedareshot.views.PlayersView
 import kotlin.collections.ArrayList
 
 /**
@@ -39,14 +42,15 @@ import kotlin.collections.ArrayList
  * jorzet.94@gmail.com
  */
 
-class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener {
+/**
+ * Constants
+ */
+private const val TAG : String = "PlayersFragment"
+private const val ADD_EDIT_DIALOG_TAG: String = "add_edit_dialog"
+private const val REQUEST_ADD_PLAYER: Int = 0x22
+private const val REQUEST_EDIT_PLAYER: Int = 0x23
 
-    /*
-     * Tags
-     */
-    private val TAG : String = "PlayersFragment"
-    private val REQUEST_ADD_PLAYER: Int = 0x22
-    private val REQUEST_EDIT_PLAYER: Int = 0x23
+class PlayersFragment: BaseFragment(), PlayersView, BaseDialog.OnDialogListener {
 
     /*
      * UI accessors
@@ -60,6 +64,16 @@ class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener {
      * Adapters
      */
     private lateinit var mPlayerAdapter: PlayersAdapter
+
+    /**
+     * Presenter
+     */
+    private lateinit var mPlayersPresenter: PlayersPresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mPlayersPresenter = PlayersPresenterImp()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -76,30 +90,19 @@ class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener {
 
         mAddPlayersButton.setOnClickListener(mAddPlayersButtonListener)
 
-        val players = arrayListOf<Player>()
-        val player1 = Player("p1","Jorge Zepeda U+1F613 U+1F631")
-        val player2 = Player("p2","Martin Roman U+1F631")
-        players.add(player1)
-        players.add(player2)
-
-        if (players.isNotEmpty()) {
-            showPlayerList(true)
-            mPlayerAdapter = PlayersAdapter(context!!, players)
-            mPlayerAdapter.mOnPlayerClickListener = mPlayersItemClickListener
-            mPlayersListView.adapter = mPlayerAdapter
-
-        } else {
-            showPlayerList(false)
-        }
-
-
         return rootView
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (::mPlayersPresenter.isInitialized)
+            mPlayersPresenter.create(this)
     }
 
     private val mAddPlayersButtonListener = View.OnClickListener {
         AddEditPlayerDialog.newInstance(REQUEST_ADD_PLAYER, null, null,
             DialogType.ACCEPT_CANCEL_DIALOG, this)
-            .show(fragmentManager!!, "add_edit_dialog")
+            .show(fragmentManager!!, ADD_EDIT_DIALOG_TAG)
     }
 
     private val mPlayersItemClickListener = object: PlayersAdapter.OnPlayerClickListener{
@@ -107,13 +110,23 @@ class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener {
             AddEditPlayerDialog.newInstance(
                 REQUEST_EDIT_PLAYER, selectedPlayer.playerName, selectedPlayer.playerId,
                 DialogType.ACCEPT_CANCEL_DIALOG, this@PlayersFragment)
-                .show(fragmentManager!!, "add_edit_dialog")
+                .show(fragmentManager!!, ADD_EDIT_DIALOG_TAG)
         }
     }
 
-    @Suppress("SENSELESS_COMPARISON")
-    private fun showPlayerList(showPlayers: Boolean) {
-        if (mNotPlayersTextView != null && mPlayersListView != null) {
+    override fun getBaseContext(): Activity {
+        return this.activity!!
+    }
+
+    override fun updatePlayersData(players: List<Player>) {
+        mPlayerAdapter = PlayersAdapter(context!!, players)
+        mPlayerAdapter.mOnPlayerClickListener = mPlayersItemClickListener
+        mPlayersListView.adapter = mPlayerAdapter
+    }
+
+    override fun showPlayerList(showPlayers: Boolean) {
+        if (::mNotPlayersTextView.isInitialized && ::mPlayersListView.isInitialized) {
+            Log.d(TAG, "show player list $showPlayers")
             if (showPlayers) {
                 mNotPlayersTextView.visibility = View.GONE
                 mPlayersListView.visibility = View.VISIBLE
@@ -124,7 +137,6 @@ class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener {
         }
     }
 
-
     override fun onConfirmationCancel() {
 
     }
@@ -134,45 +146,22 @@ class PlayersFragment: BaseFragment(), BaseDialog.OnDialogListener {
     }
 
     override fun onConfirmationAccept(arguments: Bundle) {
-        val requestCode = arguments.getInt(BaseDialog.REQUEST_CODE)
 
-        when(requestCode) {
+        when(arguments.getInt(BaseDialog.REQUEST_CODE)) {
             REQUEST_EDIT_PLAYER -> {
-                val id = arguments.getString(BaseDialog.PLAYER_ID, "")
-                if (id != null && id.isNotEmpty()) {
-                    for (player in mPlayerAdapter.mPlayers) {
-                        if (player.playerId.equals(id)) {
-                            player.playerName = arguments.getString(BaseDialog.NICK_NAME, "")
-                            mPlayerAdapter = PlayersAdapter(context!!, mPlayerAdapter.mPlayers)
-                            mPlayerAdapter.mOnPlayerClickListener = mPlayersItemClickListener
-                            mPlayersListView.adapter = mPlayerAdapter
-                            return
-                        }
-                    }
-                }
+                val playerId = arguments.getString(BaseDialog.PLAYER_ID, "")
+                val playerNickName = arguments.getString(BaseDialog.NICK_NAME, "")
+
+                if (::mPlayersPresenter.isInitialized && playerNickName.isNotEmpty() && playerId.isNotEmpty())
+                    mPlayersPresenter.requestEditPlayer(playerId, playerNickName)
             }
             REQUEST_ADD_PLAYER -> {
-                val id = getLastId(mPlayerAdapter.mPlayers) + 1
-                val newPlayer = Player("p$id", arguments.getString(BaseDialog.NICK_NAME, ""))
-                val players = mPlayerAdapter.mPlayers as ArrayList
-                players.add(newPlayer)
-                mPlayerAdapter = PlayersAdapter(context!!, players)
-                mPlayerAdapter.mOnPlayerClickListener = mPlayersItemClickListener
-                mPlayersListView.adapter = mPlayerAdapter
+                val playerNickName = arguments.getString(BaseDialog.NICK_NAME, "")
+
+                if (::mPlayersPresenter.isInitialized && playerNickName.isNotEmpty())
+                    mPlayersPresenter.requestAddPlayer(playerNickName)
             }
         }
-    }
-
-    private fun getLastId(players: List<Player>): Int{
-        val ids = arrayListOf<Int>()
-
-        for (player in players) {
-            ids.add(Integer.parseInt(player.playerId.replace("p","")))
-        }
-
-        val maxValue = Collections.max(ids)
-
-        return maxValue
     }
 
 }

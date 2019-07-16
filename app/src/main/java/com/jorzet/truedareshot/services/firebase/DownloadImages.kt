@@ -73,8 +73,8 @@ class DownloadImages: Service() {
             // instance download image task and set listeners
             val downloadImageTask = DownloadImageTask(this)
 
-            downloadImageTask.setOnRequestSuccess(object : AbstractRequestTask.OnRequestListenerSuccess {
-                override fun onSuccess(result: Any) {
+            downloadImageTask.setOnRequestSuccess(object : AbstractRequestTask.OnRequestListenerSuccess<String> {
+                override fun onSuccess(result: String) {
                     //bi.putExtra(DOWNLOAD_COMPLETE, true)
                     //sendBroadcast(bi)
                 }

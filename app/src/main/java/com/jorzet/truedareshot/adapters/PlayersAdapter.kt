@@ -61,5 +61,5 @@ class PlayersAdapter(context: Context, players: List<Player>) : BaseAdapter() {
 }
 
 class PlayerViewHolder (view: View) {
-    val mPlayerNickName = view.findViewById<EditText>(R.id.ed_player_name)
+    val mPlayerNickName: EditText = view.findViewById(R.id.ed_player_name)
 }

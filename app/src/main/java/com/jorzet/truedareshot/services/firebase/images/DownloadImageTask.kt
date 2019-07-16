@@ -93,7 +93,7 @@ class DownloadImageTask(context : Context): AbstractRequestTask<Any, Void, Strin
             return
 
         if (result.equals(DOWNLOAD_COMPLETE)) {
-            onRequestListenerSucces.onSuccess(true)
+            //onRequestListenerSucces.onSuccess(true) TODO
         } else if (result.equals(FILE_NOT_FOUND)) {
             val error = GenericError(ErrorType.CANNOT_DOWNLOAD_CONTENT_FILE_NOT_FOUND,"")
             onRequestLietenerFailed.onFailed(error)

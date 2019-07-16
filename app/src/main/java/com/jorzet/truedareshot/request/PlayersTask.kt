@@ -19,13 +19,10 @@ package com.jorzet.truedareshot.request
 import android.util.Log
 import com.google.firebase.database.*
 import com.google.gson.Gson
-import com.jorzet.truedareshot.models.Category
+import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.error.ErrorType
 import com.jorzet.truedareshot.models.error.GenericError
 import org.json.JSONObject
-import java.lang.Exception
-import java.util.ArrayList
-import java.util.HashMap
 
 /**
  * @author
@@ -36,20 +33,21 @@ import java.util.HashMap
 /**
  * Tags
  */
-private const val TAG: String = "CategoriesTask"
-private const val CATEGORIES_REFERENCE: String = "category"
+private const val TAG: String = "PlayersTaks"
+private const val PLAYERS_REFERENCE: String = "players"
 
-class CategoriesTask(): AbstractRequestTask<Void, Void, List<Category>>() {
+class PlayersTask: AbstractRequestTask<Void, Void, List<Player>>() {
 
     /*
      * Database object
      */
     private lateinit var mFirebaseDatabase: DatabaseReference
 
-    fun requestGetCategories() {
+
+    fun requestGetPlayers() {
         mFirebaseDatabase = FirebaseDatabase
             .getInstance()
-            .getReference(CATEGORIES_REFERENCE)
+            .getReference(PLAYERS_REFERENCE)
 
         mFirebaseDatabase.keepSynced(true)
 
@@ -60,23 +58,26 @@ class CategoriesTask(): AbstractRequestTask<Void, Void, List<Category>>() {
                 val post = dataSnapshot.value
                 if (post != null) {
                     try {
-                        val map = (post as List<HashMap<*, *>>)
-                        Log.d(TAG, "subcategories size: " + map.size)
-                        val categories = ArrayList<Category>()
-                        for (item in map) {
-                            val category = Gson().fromJson(JSONObject(item).toString(), Category::class.java)
-                            categories.add(category)
+                        val map = (post as HashMap<*, *>)
+                        Log.d(TAG, "players size: " + map.size)
+                        val players = ArrayList<Player>()
+                        for (key in map.keys) {
+                            val playerMap = map[key] as HashMap<*, *>
+                            val player = Gson().fromJson(JSONObject(playerMap).toString(), Player::class.java)
+                            player.playerId = key.toString()
+                            players.add(player)
                         }
-                        if (categories.isNotEmpty()) {
-                            Log.d(TAG, "categories success")
-                            onRequestListenerSucces.onSuccess(categories)
+
+                        if (players.isNotEmpty()) {
+                            Log.d(TAG, "playrs success")
+                            onRequestListenerSucces.onSuccess(players)
                         } else {
-                            Log.d(TAG, "categories null response")
+                            Log.d(TAG, "playrs null response")
                             val error = GenericError(ErrorType.NULL_RESPONSE, "")
                             onRequestLietenerFailed.onFailed(error)
                         }
                     } catch (e: Exception) {
-                        Log.d(TAG, "categories null response")
+                        Log.d(TAG, "playrs null response")
                         val error = GenericError(ErrorType.NULL_RESPONSE, "")
                         onRequestLietenerFailed.onFailed(error)
                     }
@@ -93,4 +94,5 @@ class CategoriesTask(): AbstractRequestTask<Void, Void, List<Category>>() {
             }
         })
     }
+
 }

@@ -20,6 +20,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.jorzet.truedareshot.models.Category
+import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.Subcategory
 import com.jorzet.truedareshot.services.firebase.FirebaseRequestManager
 import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
@@ -33,14 +34,11 @@ import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManag
 abstract class BaseFragment: Fragment() {
 
     private lateinit var mSharedPreferencesManager: SharedPreferencesManager
-    private lateinit var mRequestManager : FirebaseRequestManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mSharedPreferencesManager = SharedPreferencesManager(context!!)
-        mRequestManager = FirebaseRequestManager(activity as Activity)
+        mSharedPreferencesManager = SharedPreferencesManager.getInstance(context!!)
     }
-
 
     fun isFirstQuestionShown(): Boolean {
         return mSharedPreferencesManager.isFirstQuestionShown();
@@ -50,37 +48,4 @@ abstract class BaseFragment: Fragment() {
         mSharedPreferencesManager.setFirstQuestionShown(isFirstQuestionShown)
     }
 
-    /**
-     * Request categories method
-     */
-    fun requestCategories() {
-        mRequestManager.requestGetCategories(object: FirebaseRequestManager.OnGetCategoriesListener {
-            override fun onGetCategoriesLoaded(categories: List<Category>) {
-                onGetCategoriesSuccess(categories)
-            }
-            override fun onGetCategoriesError(throwable: Throwable) {
-                onGetCategoriesFail(throwable)
-            }
-        })
-    }
-
-    open fun onGetCategoriesSuccess(categories: List<Category>) {}
-    open fun onGetCategoriesFail(throwable: Throwable) {}
-
-    /**
-     *
-     */
-    fun requestSubcategories() {
-        mRequestManager.requestGetSubcategories(object: FirebaseRequestManager.OnGetSubcategoriesListener {
-            override fun onGetSubcategoriesLoaded(subcategories: List<Subcategory>) {
-                onGetSubcategoriesSuccess(subcategories)
-            }
-            override fun onGetSubcategoriesError(throwable: Throwable) {
-                onGetSubcategoriesFail(throwable)
-            }
-        })
-    }
-
-    open fun onGetSubcategoriesSuccess(subcategories: List<Subcategory>) {}
-    open fun onGetSubcategoriesFail(throwable: Throwable) {}
 }

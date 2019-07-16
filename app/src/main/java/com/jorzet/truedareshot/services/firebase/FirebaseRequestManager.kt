@@ -17,11 +17,11 @@
 package com.jorzet.truedareshot.services.firebase
 
 import android.app.Activity
+import android.content.Context
 import com.jorzet.truedareshot.models.Category
+import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.Question
 import com.jorzet.truedareshot.models.Subcategory
-import com.jorzet.truedareshot.request.AbstractRequestTask
-import com.jorzet.truedareshot.request.CategoriesTask
 
 /**
  * @author
@@ -29,10 +29,20 @@ import com.jorzet.truedareshot.request.CategoriesTask
  * jorzet.94@gmail.com
  */
 
-private const val TAG : String = "RequestManager"
+abstract class FirebaseRequestManager(activity: Activity) {
 
-class FirebaseRequestManager(activity : Activity) {
-    private val mActivity = activity
+    protected val TAG : String = "FirebaseRequestManager"
+    protected val mActivity: Activity = activity
+
+    companion object {
+        /**
+         * Manager constructor
+         * @param activity Base Activity or Fragment [Context]
+         */
+        fun getInstance(activity: Activity): FirebaseRequestManager {
+            return FirebaseRequestManagerImp.getInstance(activity)
+        }
+    }
 
     interface OnGetQuestionListener {
         fun onGetQuestionLoaded(question: Question)
@@ -49,44 +59,31 @@ class FirebaseRequestManager(activity : Activity) {
         fun onGetSubcategoriesError(throwable: Throwable)
     }
 
-    fun requestGetQuestion(onGetQuestionListener: OnGetQuestionListener) {
-
+    interface OnGetPlayersListener {
+        fun onGetPlayersLoaded(players: List<Player>)
+        fun onGetPlayersError(throwable: Throwable)
     }
 
-    fun requestGetCategories(onGetCategoriesListener: OnGetCategoriesListener) {
-        val categoryTask = CategoriesTask()
+    abstract fun requestGetQuestion(onGetQuestionListener: OnGetQuestionListener)
 
-        categoryTask.setOnRequestSuccess(object: AbstractRequestTask.OnRequestListenerSuccess {
-            override fun onSuccess(result: Any) {
-                onGetCategoriesListener.onGetCategoriesLoaded(result as List<Category>)
-            }
-        })
+    /**
+     * @param onGetCategoriesListener categories response listener
+     */
+    abstract fun requestGetCategories(onGetCategoriesListener: OnGetCategoriesListener)
 
-        categoryTask.setOnRequestFailed(object: AbstractRequestTask.OnRequestListenerFailed {
-            override fun onFailed(throwable: Throwable) {
-                onGetCategoriesListener.onGetCategoriesError(throwable)
-            }
-        })
+    /**
+     * @param onGetSubcategoriesListener subcategories response listener [OnGetSubcategoriesListener]
+     */
+    abstract fun requestGetSubcategories(onGetSubcategoriesListener: OnGetSubcategoriesListener)
 
-        categoryTask.requestGetCategories()
-    }
+    /**
+     * @param onGetPlayersListener players response listener [OnGetQuestionListener]
+     */
+    abstract fun requestGetPlayers(onGetPlayersListener: OnGetPlayersListener)
 
-    fun requestGetSubcategories(onGetSubcategoriesListener: OnGetSubcategoriesListener) {
-        val categoryTask = CategoriesTask()
-
-        categoryTask.setOnRequestSuccess(object: AbstractRequestTask.OnRequestListenerSuccess {
-            override fun onSuccess(result: Any) {
-                onGetSubcategoriesListener.onGetSubcategoriesLoaded(result as List<Subcategory>)
-            }
-        })
-
-        categoryTask.setOnRequestFailed(object: AbstractRequestTask.OnRequestListenerFailed {
-            override fun onFailed(throwable: Throwable) {
-                onGetSubcategoriesListener.onGetSubcategoriesError(throwable)
-            }
-        })
-
-        categoryTask.requestGetSubcategories()
-    }
+    /**
+     * Destroy [FirebaseRequestManager] instance
+     */
+    abstract fun destroy()
 
 }

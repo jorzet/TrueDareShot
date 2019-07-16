@@ -24,16 +24,16 @@ import android.os.AsyncTask
  * jorzet.94@gmail.com
  */
 
-open class AbstractRequestTask<A, B, C> : AsyncTask<A, B, C>() {
+abstract class AbstractRequestTask<A, B, C> : AsyncTask<A, B, C>() {
 
     private lateinit var mResponse : String
 
-    protected lateinit var onRequestListenerSucces : OnRequestListenerSuccess
+    protected lateinit var onRequestListenerSucces : OnRequestListenerSuccess<C>
     protected lateinit var onRequestLietenerFailed : OnRequestListenerFailed
     protected lateinit var onDownloadStatusListener: OnDownloadStatusListener
 
-    interface OnRequestListenerSuccess {
-        fun onSuccess(result: Any)
+    interface OnRequestListenerSuccess<C> {
+        fun onSuccess(result: C)
     }
 
     interface OnRequestListenerFailed {
@@ -45,7 +45,7 @@ open class AbstractRequestTask<A, B, C> : AsyncTask<A, B, C>() {
         fun onImagesError()
     }
 
-    fun setOnRequestSuccess(onRequestSuccess: OnRequestListenerSuccess) {
+    fun setOnRequestSuccess(onRequestSuccess: OnRequestListenerSuccess<C>) {
         this.onRequestListenerSucces = onRequestSuccess
     }
 

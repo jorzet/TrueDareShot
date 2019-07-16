@@ -23,54 +23,58 @@ import android.content.Context
  * jorzet.94@gmail.com
  */
 
-class SharedPreferencesManager(context: Context) {
+abstract class SharedPreferencesManager(context: Context) {
 
     /*
      * Objects
      */
-    private val mContext : Context = context
+    protected val mContext : Context = context
 
     /*
      * Tags to save data
      */
-    private val SHARED_PREFERENCES_NAME : String = "shared_preferences_name"
-    private val JSON_QUESTION : String = "json_question"
-    private val FIRST_QUESTION_SHOWN = "first_question_shown"
+    protected val SHARED_PREFERENCES_NAME : String = "shared_preferences_name"
+    protected val JSON_QUESTION : String = "json_question"
+    protected val FIRST_QUESTION_SHOWN = "first_question_shown"
 
-    /**
-     * This method removes all sharedPreferences session data
-     */
-    fun removeSessionData() {
-        mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).edit().clear().apply()
+    companion object {
+        fun getInstance(context: Context): SharedPreferencesManager {
+            return SharedPreferencesManagerImp.getInstance(context)
+        }
     }
 
-    /*
+    /**
+     * Destroy [SharedPreferencesManager] instance
+     */
+    abstract fun destroy()
+
+    /**
+     * This method removes all session data
+     */
+    abstract fun removeSessionData()
+
+    /**
      * store json with JSON_QUESTION tag
+     * @param [Question] object in Json [Stirng]
      */
-    fun storeJsonQuestion(json : String) {
-        val editor = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
-        editor.putString(JSON_QUESTION, json)
-        editor.apply()
-    }
+    abstract fun storeJsonQuestion(json : String)
 
     /**
-     * @return
-     *      A json string that contains question object
+     * Return a json string that contains question object
+     * @return Question in Json [String]
      */
-    fun getJsonQuestion() : String? {
-        val prefs = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-        return prefs.getString(JSON_QUESTION, null)
-    }
+    abstract fun getJsonQuestion() : String?
 
-    fun setFirstQuestionShown(isFirstQuestionShown: Boolean) {
-        val editor = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
-        editor.putBoolean(FIRST_QUESTION_SHOWN, isFirstQuestionShown)
-        editor.apply()
-    }
+    /**
+     * Set flag to know if first question is shown
+     * @param isFirstQuestionShown boolean flag
+     */
+    abstract fun setFirstQuestionShown(isFirstQuestionShown: Boolean)
 
-    fun isFirstQuestionShown(): Boolean {
-        val prefs = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-        return prefs.getBoolean(FIRST_QUESTION_SHOWN, false)
-    }
+    /**
+     * Indicate true when first question is shown in app
+     * @return true or false according first question
+     */
+    abstract fun isFirstQuestionShown(): Boolean
 
 }

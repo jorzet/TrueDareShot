@@ -1,3 +1,19 @@
+/*
+ * Copyright [2019] [Jorge Zepeda Tinoco]
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.jorzet.truedareshot.ui.dialogs
 
 import android.app.Activity
@@ -13,14 +29,32 @@ import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.models.enums.DialogType
 import com.jorzet.truedareshot.utils.Utils
 
+/**
+ * @author
+ * Created by Jorge Zepeda Tinoco on 16/07/19.
+ * jorzet.94@gmail.com
+ */
+
 class AddEditPlayerDialog: BaseDialog() {
 
+    /**
+     * UI accessors
+     */
     private lateinit var mNickNameEditText: EditText
     private lateinit var mColorProgressBar: ProgressBar
     private lateinit var mCancelButton: Button
     private lateinit var mAcceptButton: Button
 
     companion object {
+        /**
+         * Creates an instance of [AddEditPlayerDialog]
+         * @param requestCode identifier request code [Int]
+         * @param playerNickName player nick name in [String]
+         * @param playerId player identifier [String]
+         * @param dialogType dialog type [DialogType]
+         * @param onDialogListener dialog action listener [OnDialogListener]
+         * @return An instance of [AddEditPlayerDialog]
+         */
         fun newInstance(requestCode: Int, playerNickName: String?, playerId: String?, dialogType: DialogType,
                         onDialogListener: OnDialogListener) : AddEditPlayerDialog {
             val addEditPlayerDialog = AddEditPlayerDialog()
@@ -39,15 +73,13 @@ class AddEditPlayerDialog: BaseDialog() {
 
             bundle.putSerializable(DIALOG_TYPE, dialogType)
             addEditPlayerDialog.arguments = bundle
-            return addEditPlayerDialog;
+            return addEditPlayerDialog
         }
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView : View?
 
-        rootView = inflater.inflate(R.layout.custom_add_edit_dialog, container, false)
+        val rootView = inflater.inflate(R.layout.custom_add_edit_dialog, container, false)
 
         mNickNameEditText = rootView.findViewById(R.id.et_player_nick_name)
         mColorProgressBar = rootView.findViewById(R.id.pb_choose_color)
@@ -58,7 +90,7 @@ class AddEditPlayerDialog: BaseDialog() {
         mAcceptButton.setOnClickListener(mAcceptButtonListener)
 
         if (arguments != null) {
-            val dialogType = (arguments as Bundle).getSerializable(DIALOG_TYPE)
+            mDialogType = (arguments as Bundle).getSerializable(DIALOG_TYPE) as DialogType
             val nickName = (arguments as Bundle).getString(NICK_NAME)
 
             if (nickName != null) {
@@ -68,10 +100,6 @@ class AddEditPlayerDialog: BaseDialog() {
         }
 
         return rootView
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     private val mCancelButtonListener = View.OnClickListener {
