@@ -19,14 +19,14 @@ package com.jorzet.truedareshot.presenters.question
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.Question
-import com.jorzet.truedareshot.services.firebase.FirebaseRequestManager
-import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
+import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager
+import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
 import com.jorzet.truedareshot.views.QuestionView
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19
  */
 
 class QuestionPresenterImp: QuestionPresenter {
@@ -60,6 +60,8 @@ class QuestionPresenterImp: QuestionPresenter {
             mQuestionView.showButtonIsWaiting()
             mQuestionView.updateQuestionType(mQuestionView.getBaseContext().resources.getString(R.string.play_text))
         }
+
+        requestQuestion()
     }
 
     override fun destroy() {
@@ -79,12 +81,12 @@ class QuestionPresenterImp: QuestionPresenter {
     }
 
     override fun requestQuestion() {
-        mRequestManager?.requestGetQuestion(object : FirebaseRequestManager.OnGetQuestionListener {
-            override fun onGetQuestionLoaded(question: Question) {
+        mRequestManager?.requestGetQuestions(object : FirebaseRequestManager.OnGetQuestionsListener {
+            override fun onGetQuestionsLoaded(questions: List<Question>) {
 
             }
 
-            override fun onGetQuestionError(throwable: Throwable) {
+            override fun onGetQuestionsError(throwable: Throwable) {
 
             }
 

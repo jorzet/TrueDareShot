@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jorzet.truedareshot.services.firebase
+package com.jorzet.truedareshot.managers.firebase
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -22,16 +22,14 @@ import android.content.Context
 import android.util.Log
 import com.jorzet.truedareshot.models.Category
 import com.jorzet.truedareshot.models.Player
+import com.jorzet.truedareshot.models.Question
 import com.jorzet.truedareshot.models.Subcategory
-import com.jorzet.truedareshot.request.AbstractRequestTask
-import com.jorzet.truedareshot.request.CategoriesTask
-import com.jorzet.truedareshot.request.PlayersTask
-import com.jorzet.truedareshot.request.SubcategoryTask
+import com.jorzet.truedareshot.request.*
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19.
  */
 
 class FirebaseRequestManagerImp(activity: Activity): FirebaseRequestManager(activity) {
@@ -66,8 +64,22 @@ class FirebaseRequestManagerImp(activity: Activity): FirebaseRequestManager(acti
         sInstance = null
     }
 
-    override fun requestGetQuestion(onGetQuestionListener: OnGetQuestionListener) {
+    override fun requestGetQuestions(onGetQuestionsListener: OnGetQuestionsListener) {
+        val questionsTask = QuestionsTask()
 
+        questionsTask.setOnRequestSuccess(object: AbstractRequestTask.OnRequestListenerSuccess<List<Question>> {
+            override fun onSuccess(result: List<Question>) {
+                onGetQuestionsListener.onGetQuestionsLoaded(result)
+            }
+        })
+
+        questionsTask.setOnRequestFailed(object: AbstractRequestTask.OnRequestListenerFailed {
+            override fun onFailed(throwable: Throwable) {
+                onGetQuestionsListener.onGetQuestionsError(throwable)
+            }
+        })
+
+        questionsTask.request()
     }
 
     override fun requestGetCategories(onGetCategoriesListener: OnGetCategoriesListener) {
@@ -87,7 +99,7 @@ class FirebaseRequestManagerImp(activity: Activity): FirebaseRequestManager(acti
             }
         })
 
-        categoryTask.requestGetCategories()
+        categoryTask.request()
     }
 
     override fun requestGetSubcategories(onGetSubcategoriesListener: OnGetSubcategoriesListener) {
@@ -107,7 +119,7 @@ class FirebaseRequestManagerImp(activity: Activity): FirebaseRequestManager(acti
             }
         })
 
-        subcategoryTask.requestGetSubcategories()
+        subcategoryTask.request()
     }
 
     override fun requestGetPlayers(onGetPlayersListener: OnGetPlayersListener) {
@@ -127,7 +139,7 @@ class FirebaseRequestManagerImp(activity: Activity): FirebaseRequestManager(acti
             }
         })
 
-        playersTask.requestGetPlayers()
+        playersTask.request()
     }
 
 }

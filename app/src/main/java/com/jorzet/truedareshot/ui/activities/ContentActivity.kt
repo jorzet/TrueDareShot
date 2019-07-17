@@ -25,14 +25,13 @@ import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.adapters.ViewPagerAdapter
 import com.jorzet.truedareshot.utils.ImagesUtil
 
-
 /**
  * This class call all components and adapters to build home view
  * with its tabs
  *
- * @author
- * Created by Jorge Zepeda Tinoco on 08/11/18.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 08/11/18
  */
 
 class ContentActivity: BaseActivityLifeCycle() {

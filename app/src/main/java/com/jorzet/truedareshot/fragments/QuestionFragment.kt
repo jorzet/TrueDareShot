@@ -29,9 +29,9 @@ import com.jorzet.truedareshot.presenters.question.QuestionPresenterImp
 import com.jorzet.truedareshot.views.QuestionView
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 08/11/18.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 08/11/18.
  */
 
 class QuestionFragment: BaseFragment(), QuestionView {

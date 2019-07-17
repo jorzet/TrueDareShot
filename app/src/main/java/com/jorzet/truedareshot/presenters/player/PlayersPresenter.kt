@@ -21,9 +21,9 @@ import com.jorzet.truedareshot.presenters.BasePresenter
 import com.jorzet.truedareshot.views.PlayersView
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19
  */
 
 interface PlayersPresenter: BasePresenter<PlayersView> {

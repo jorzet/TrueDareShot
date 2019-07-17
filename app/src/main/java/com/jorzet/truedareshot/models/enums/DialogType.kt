@@ -17,8 +17,9 @@
 package com.jorzet.truedareshot.models.enums
 
 /**
- * Created by Jorge Zepeda Tinoco on 27/05/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 27/05/19
  */
 
 enum class DialogType {

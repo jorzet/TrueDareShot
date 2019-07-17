@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jorzet.truedareshot.services.firebase
+package com.jorzet.truedareshot.managers.firebase
 
 import android.app.Activity
 import android.content.Context
@@ -24,9 +24,9 @@ import com.jorzet.truedareshot.models.Question
 import com.jorzet.truedareshot.models.Subcategory
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 19/05/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 20/05/19.
  */
 
 abstract class FirebaseRequestManager(activity: Activity) {
@@ -44,9 +44,9 @@ abstract class FirebaseRequestManager(activity: Activity) {
         }
     }
 
-    interface OnGetQuestionListener {
-        fun onGetQuestionLoaded(question: Question)
-        fun onGetQuestionError(throwable: Throwable)
+    interface OnGetQuestionsListener {
+        fun onGetQuestionsLoaded(questions: List<Question>)
+        fun onGetQuestionsError(throwable: Throwable)
     }
 
     interface OnGetCategoriesListener {
@@ -64,7 +64,7 @@ abstract class FirebaseRequestManager(activity: Activity) {
         fun onGetPlayersError(throwable: Throwable)
     }
 
-    abstract fun requestGetQuestion(onGetQuestionListener: OnGetQuestionListener)
+    abstract fun requestGetQuestions(onGetQuestionsListener: OnGetQuestionsListener)
 
     /**
      * @param onGetCategoriesListener categories response listener

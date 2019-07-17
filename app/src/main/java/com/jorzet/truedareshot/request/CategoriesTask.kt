@@ -28,69 +28,65 @@ import java.util.ArrayList
 import java.util.HashMap
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 20/05/19
  */
 
 /**
- * Tags
+ * Constants
  */
 private const val TAG: String = "CategoriesTask"
 private const val CATEGORIES_REFERENCE: String = "category"
 
-class CategoriesTask(): AbstractRequestTask<Void, Void, List<Category>>() {
+class CategoriesTask: AbstractRequestTask<Void, List<Category>>() {
 
-    /*
-     * Database object
-     */
-    private lateinit var mFirebaseDatabase: DatabaseReference
+    override fun getReference(): String? {
+        return CATEGORIES_REFERENCE
+    }
 
-    fun requestGetCategories() {
-        mFirebaseDatabase = FirebaseDatabase
-            .getInstance()
-            .getReference(CATEGORIES_REFERENCE)
+    override fun keepSync(): Boolean {
+        return true
+    }
 
-        mFirebaseDatabase.keepSynced(true)
+    override fun onGettingResponse(successResponse: DataSnapshot) {
+        val post = successResponse.value
 
-        // Attach a listener to read the data at our posts reference
-        mFirebaseDatabase.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
+        if (post != null) {
+            try {
+                val list = (post as List<*>)
+                val categories = ArrayList<Category>()
+                Log.d(TAG, "subcategories size: " + list.size)
 
-                val post = dataSnapshot.value
-                if (post != null) {
-                    try {
-                        val map = (post as List<HashMap<*, *>>)
-                        Log.d(TAG, "subcategories size: " + map.size)
-                        val categories = ArrayList<Category>()
-                        for (item in map) {
-                            val category = Gson().fromJson(JSONObject(item).toString(), Category::class.java)
-                            categories.add(category)
-                        }
-                        if (categories.isNotEmpty()) {
-                            Log.d(TAG, "categories success")
-                            onRequestListenerSucces.onSuccess(categories)
-                        } else {
-                            Log.d(TAG, "categories null response")
-                            val error = GenericError(ErrorType.NULL_RESPONSE, "")
-                            onRequestLietenerFailed.onFailed(error)
-                        }
-                    } catch (e: Exception) {
-                        Log.d(TAG, "categories null response")
-                        val error = GenericError(ErrorType.NULL_RESPONSE, "")
-                        onRequestLietenerFailed.onFailed(error)
-                    }
+                for (item in list) {
+                    val itemMap = item as HashMap<*, *>
+                    val category = Gson().fromJson(JSONObject(itemMap).toString(), Category::class.java)
+                    categories.add(category)
+                }
+
+                if (categories.isNotEmpty()) {
+                    Log.d(TAG, "categories success")
+                    onRequestListenerSucces.onSuccess(categories)
                 } else {
                     Log.d(TAG, "categories null response")
                     val error = GenericError(ErrorType.NULL_RESPONSE, "")
                     onRequestLietenerFailed.onFailed(error)
                 }
+            } catch (e: Exception) {
+                Log.d(TAG, "categories null response")
+                val error = GenericError(ErrorType.NULL_RESPONSE, "")
+                onRequestLietenerFailed.onFailed(error)
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
-                onRequestLietenerFailed.onFailed(databaseError.toException())
-            }
-        })
+        } else {
+            Log.d(TAG, "categories null response")
+            val error = GenericError(ErrorType.NULL_RESPONSE, "")
+            onRequestLietenerFailed.onFailed(error)
+        }
     }
+
+    override fun onGettingError(errorResponse: DatabaseError) {
+        println("The read failed: " + errorResponse.code)
+        onRequestLietenerFailed.onFailed(errorResponse.toException())
+    }
+
 }

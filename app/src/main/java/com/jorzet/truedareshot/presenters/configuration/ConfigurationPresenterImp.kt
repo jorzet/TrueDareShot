@@ -18,14 +18,14 @@ package com.jorzet.truedareshot.presenters.configuration
 
 import com.jorzet.truedareshot.models.Category
 import com.jorzet.truedareshot.models.Subcategory
-import com.jorzet.truedareshot.services.firebase.FirebaseRequestManager
-import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
+import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager
+import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
 import com.jorzet.truedareshot.views.ConfigurationView
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19
  */
 
 class ConfigurationPresenterImp: ConfigurationPresenter {

@@ -17,9 +17,9 @@
 package com.jorzet.truedareshot.models.error
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 19/05/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 20/05/19
  */
 
 data class GenericError(var errorType : ErrorType,

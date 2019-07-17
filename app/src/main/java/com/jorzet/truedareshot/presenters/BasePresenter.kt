@@ -1,7 +1,9 @@
 package com.jorzet.truedareshot.presenters
 
 /**
- * Created by Jorge Zepeda on 29/05/19.
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19
  */
 
 interface BasePresenter<V> {

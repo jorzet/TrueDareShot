@@ -16,66 +16,153 @@
 
 package com.jorzet.truedareshot.request
 
-import android.os.AsyncTask
+import com.google.firebase.database.*
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 19/05/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 20/05/19.
  */
 
-abstract class AbstractRequestTask<A, B, C> : AsyncTask<A, B, C>() {
+/**
+ * [AbstractRequestTask] Describes all methods that are going to be used on
+ *                       Firebase request passing the following params:
+ *
+ * A: input
+ * B: output
+ */
+abstract class AbstractRequestTask<A, B> {
 
-    private lateinit var mResponse : String
+    /**
+     * Attributes
+     */
+    private var mResponse: B? = null
+    private var mParams: A? = null
 
-    protected lateinit var onRequestListenerSucces : OnRequestListenerSuccess<C>
-    protected lateinit var onRequestLietenerFailed : OnRequestListenerFailed
-    protected lateinit var onDownloadStatusListener: OnDownloadStatusListener
+    /*
+     * Database object
+     */
+    protected lateinit var mFirebaseDatabase: DatabaseReference
 
-    interface OnRequestListenerSuccess<C> {
-        fun onSuccess(result: C)
+    /**
+     * Listeners
+     */
+    protected lateinit var onRequestListenerSucces: OnRequestListenerSuccess<B>
+    protected lateinit var onRequestLietenerFailed: OnRequestListenerFailed
+
+    /** Describes success interface listener*/
+    interface OnRequestListenerSuccess<B> {
+        /**
+         * Success method, gives B as output response
+         */
+        fun onSuccess(result: B)
     }
 
+    /** Describes fail interface listener */
     interface OnRequestListenerFailed {
+        /**
+         * Fail method, gives [Throwable] as output error response
+         */
         fun onFailed(throwable: Throwable)
     }
 
-    interface OnDownloadStatusListener {
-        fun onImageDownloaded()
-        fun onImagesError()
-    }
-
-    fun setOnRequestSuccess(onRequestSuccess: OnRequestListenerSuccess<C>) {
+    /**
+     * Set success request listener
+     *
+     * @param onRequestSuccess [OnRequestListenerSuccess] implementation
+     */
+    fun setOnRequestSuccess(onRequestSuccess: OnRequestListenerSuccess<B>) {
         this.onRequestListenerSucces = onRequestSuccess
     }
 
+    /**
+     * Set fail request listener
+     *
+     * @param onRequestFailed [OnRequestListenerFailed] implementation
+     */
     fun setOnRequestFailed(onRequestFailed: OnRequestListenerFailed) {
         this.onRequestLietenerFailed = onRequestFailed
     }
 
-    fun setOnDownloadStatus(onDownloadStatusListener: OnDownloadStatusListener) {
-        this.onDownloadStatusListener = onDownloadStatusListener
+    /**
+     * This method gives database reference
+     *
+     * @return reference in [String]
+     */
+    abstract fun getReference(): String?
+
+    /**
+     * This method gives the success response on param
+     *
+     * @param successResponse success response object [DataSnapshot]
+     */
+    abstract fun onGettingResponse(successResponse: DataSnapshot)
+
+    /**
+     * This method gives the fail response on param
+     *
+     * @param errorResponse error response object [DatabaseError]
+     */
+    abstract fun onGettingError(errorResponse: DatabaseError)
+
+    /**
+     * Indicate if data is sync and storage
+     *
+     * @return
+     */
+    protected open fun keepSync(): Boolean {
+        return true
     }
 
-    protected open fun getUrl() : String {
-        return ""
+    /**
+     * Create a Firebase Database instance according reference
+     *
+     * @return An isntance of [DatabaseReference]
+     */
+    protected open fun getDatabaseInstance(): DatabaseReference {
+        val reference = getReference()
+
+        if (reference != null) {
+            return FirebaseDatabase
+                .getInstance()
+                .getReference(reference)
+        }
+
+        return FirebaseDatabase.getInstance().reference
     }
 
-    override protected fun onPreExecute() {
-        super.onPreExecute()
-    }
-
-    override protected fun doInBackground(vararg p0: A): C? {
+    protected open fun getQuery(): Query? {
         return null
     }
 
-    override protected fun onPostExecute(result: C) {
-        super.onPostExecute(result)
-        mResponse = result as String
+    /**
+     * This method gets data, with the given reference and return it on success and error methods
+     */
+    open fun request() {
+        // get firebase data base reference
+        mFirebaseDatabase = getDatabaseInstance()
+
+        // set keep sync
+        mFirebaseDatabase.keepSynced(keepSync())
+
+        val query = getQuery()
+
+        // Attach a listener to read the data at our posts reference
+        if (query != null) {
+            query.addValueEventListener(mValueEventListener)
+        } else {
+            mFirebaseDatabase.addValueEventListener(mValueEventListener)
+        }
     }
 
-    protected open fun onGettingResponse(response : C) {
+    private val mValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            onGettingResponse(dataSnapshot)
+        }
 
+        override fun onCancelled(databaseError: DatabaseError) {
+            onGettingError(databaseError)
+        }
     }
 
 }

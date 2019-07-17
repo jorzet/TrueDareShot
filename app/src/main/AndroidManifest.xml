@@ -36,10 +36,6 @@
         <activity
                 android:name=".ui.activities.ContentActivity"
                 android:screenOrientation="portrait"/>
-    
-        
-        <!-- DOWNLOAD IMAGES SERVICE -->
-        <service android:name=".services.firebase.DownloadImages"/>
 
     </application>
 

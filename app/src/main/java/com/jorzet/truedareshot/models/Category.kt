@@ -20,9 +20,9 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 19/05/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 20/05/19
  */
 
 data class Category (

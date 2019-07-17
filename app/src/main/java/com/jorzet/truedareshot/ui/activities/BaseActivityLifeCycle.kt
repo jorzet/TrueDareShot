@@ -19,13 +19,12 @@ package com.jorzet.truedareshot.ui.activities
 import android.support.v7.app.AppCompatActivity
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 08/11/18.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 08/11/18
  */
 
 open class BaseActivityLifeCycle: AppCompatActivity() {
-
 
     override fun onStart() {
         super.onStart()

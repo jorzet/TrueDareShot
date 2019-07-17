@@ -19,7 +19,13 @@ package com.jorzet.truedareshot
 import android.support.multidex.MultiDexApplication
 
 import com.google.firebase.database.FirebaseDatabase
-import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
+import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
+
+/**
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 08/11/18
+ */
 
 class TrueDareShotApplication: MultiDexApplication() {
 

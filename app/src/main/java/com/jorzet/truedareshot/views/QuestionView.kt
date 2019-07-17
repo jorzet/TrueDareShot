@@ -16,12 +16,11 @@
 
 package com.jorzet.truedareshot.views
 
-import android.app.Activity
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19
  */
 
 interface QuestionView: BaseView {

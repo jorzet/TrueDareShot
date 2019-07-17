@@ -20,26 +20,24 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.adapters.CategoryAdapter
 import com.jorzet.truedareshot.models.Category
-import com.jorzet.truedareshot.models.Subcategory
 import com.jorzet.truedareshot.presenters.configuration.ConfigurationPresenter
 import com.jorzet.truedareshot.presenters.configuration.ConfigurationPresenterImp
 import com.jorzet.truedareshot.views.ConfigurationView
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 08/11/18.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 08/11/18.
  */
 
 /**
- * Tags
+ * Constants
  */
 private const val TAG : String = "ConfigurationFragment"
 

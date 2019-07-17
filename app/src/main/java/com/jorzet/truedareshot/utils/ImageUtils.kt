@@ -19,9 +19,9 @@ package com.jorzet.truedareshot.utils
 import com.jorzet.truedareshot.R
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 17/05/19
  */
 
 class ImagesUtil {

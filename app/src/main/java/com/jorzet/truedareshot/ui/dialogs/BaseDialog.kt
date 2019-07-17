@@ -27,9 +27,9 @@ import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.models.enums.DialogType
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 27/05/19
  */
 
 open class BaseDialog: DialogFragment() {

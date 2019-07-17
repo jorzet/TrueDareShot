@@ -17,15 +17,15 @@
 package com.jorzet.truedareshot.presenters.player
 
 import com.jorzet.truedareshot.models.Player
-import com.jorzet.truedareshot.services.firebase.FirebaseRequestManager
-import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
+import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager
+import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
 import com.jorzet.truedareshot.views.PlayersView
 import java.util.*
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19
  */
 
 class PlayersPresenterImp: PlayersPresenter {

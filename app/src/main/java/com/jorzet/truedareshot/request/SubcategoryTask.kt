@@ -28,9 +28,9 @@ import java.util.ArrayList
 import java.util.HashMap
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19
  */
 
 /**
@@ -39,61 +39,53 @@ import java.util.HashMap
 private const val TAG: String = "CategoriesTask"
 private const val SUBCATEGORIES_REFERENCE: String = "subcategory"
 
-class SubcategoryTask: AbstractRequestTask<Void, Void, List<Subcategory>>() {
+class SubcategoryTask: AbstractRequestTask<Void, List<Subcategory>>() {
 
-    /*
-     * Database object
-     */
-    private lateinit var mFirebaseDatabase: DatabaseReference
+    override fun getReference(): String? {
+        return SUBCATEGORIES_REFERENCE
+    }
 
-    fun requestGetSubcategories() {
-        mFirebaseDatabase = FirebaseDatabase
-            .getInstance()
-            .getReference(SUBCATEGORIES_REFERENCE)
+    override fun keepSync(): Boolean {
+        return true
+    }
 
-        mFirebaseDatabase.keepSynced(true)
+    override fun onGettingResponse(successResponse: DataSnapshot) {
+        val post = successResponse.value
+        if (post != null) {
+            try {
+                val map = (post as HashMap<*, *>)
+                Log.d(TAG, "subcategories size: " + map.size)
+                val subcategories = ArrayList<Subcategory>()
+                for (key in map.keys) {
+                    val subcategoryMap = map[key] as kotlin.collections.HashMap<*, *>
+                    val subcategory = Gson().fromJson(JSONObject(subcategoryMap).toString(), Subcategory::class.java)
+                    subcategory.subcategoryId = key.toString()
+                    subcategories.add(subcategory)
+                }
 
-        // Attach a listener to read the data at our posts reference
-        mFirebaseDatabase.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                val post = dataSnapshot.value
-                if (post != null) {
-                    try {
-                        val map = (post as HashMap<*, *>)
-                        Log.d(TAG, "subcategories size: " + map.size)
-                        val subcategories = ArrayList<Subcategory>()
-                        for (key in map.keys) {
-                            val subcategoryMap = map[key] as kotlin.collections.HashMap<*, *>
-                            val subcategory = Gson().fromJson(JSONObject(subcategoryMap).toString(), Subcategory::class.java)
-                            subcategory.subcategoryId = key.toString()
-                            subcategories.add(subcategory)
-                        }
-
-                        if (subcategories.isNotEmpty()) {
-                            Log.d(TAG, "categories success")
-                            onRequestListenerSucces.onSuccess(subcategories)
-                        } else {
-                            Log.d(TAG, "categories null response")
-                            val error = GenericError(ErrorType.NULL_RESPONSE, "")
-                            onRequestLietenerFailed.onFailed(error)
-                        }
-                    } catch (e: Exception) {
-                        Log.d(TAG, "categories null response")
-                        val error = GenericError(ErrorType.NULL_RESPONSE, "")
-                        onRequestLietenerFailed.onFailed(error)
-                    }
+                if (subcategories.isNotEmpty()) {
+                    Log.d(TAG, "subcategories success")
+                    onRequestListenerSucces.onSuccess(subcategories)
                 } else {
-                    Log.d(TAG, "categories null response")
+                    Log.d(TAG, "subcategories null response")
                     val error = GenericError(ErrorType.NULL_RESPONSE, "")
                     onRequestLietenerFailed.onFailed(error)
                 }
+            } catch (e: Exception) {
+                Log.d(TAG, "subcategories null response")
+                val error = GenericError(ErrorType.NULL_RESPONSE, "")
+                onRequestLietenerFailed.onFailed(error)
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
-                onRequestLietenerFailed.onFailed(databaseError.toException())
-            }
-        })
+        } else {
+            Log.d(TAG, "subcategories null response")
+            val error = GenericError(ErrorType.NULL_RESPONSE, "")
+            onRequestLietenerFailed.onFailed(error)
+        }
     }
+
+    override fun onGettingError(errorResponse: DatabaseError) {
+        println("The read failed: " + errorResponse.code)
+        onRequestLietenerFailed.onFailed(errorResponse.toException())
+    }
+
 }

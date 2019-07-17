@@ -16,19 +16,15 @@
 
 package com.jorzet.truedareshot.fragments
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.jorzet.truedareshot.models.Category
-import com.jorzet.truedareshot.models.Player
-import com.jorzet.truedareshot.models.Subcategory
-import com.jorzet.truedareshot.services.firebase.FirebaseRequestManager
-import com.jorzet.truedareshot.services.sharedpreferences.SharedPreferencesManager
+import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
+
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 08/11/18.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 08/11/18
  */
 
 abstract class BaseFragment: Fragment() {

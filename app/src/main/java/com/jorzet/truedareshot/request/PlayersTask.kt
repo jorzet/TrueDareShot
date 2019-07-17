@@ -25,74 +25,64 @@ import com.jorzet.truedareshot.models.error.GenericError
 import org.json.JSONObject
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19
  */
 
 /**
- * Tags
+ * Constants
  */
 private const val TAG: String = "PlayersTaks"
 private const val PLAYERS_REFERENCE: String = "players"
 
-class PlayersTask: AbstractRequestTask<Void, Void, List<Player>>() {
+class PlayersTask: AbstractRequestTask<Void, List<Player>>() {
 
-    /*
-     * Database object
-     */
-    private lateinit var mFirebaseDatabase: DatabaseReference
+    override fun getReference(): String? {
+        return PLAYERS_REFERENCE
+    }
 
+    override fun keepSync(): Boolean {
+        return true
+    }
 
-    fun requestGetPlayers() {
-        mFirebaseDatabase = FirebaseDatabase
-            .getInstance()
-            .getReference(PLAYERS_REFERENCE)
+    override fun onGettingResponse(successResponse: DataSnapshot) {
+        val post = successResponse.value
+        if (post != null) {
+            try {
+                val map = (post as HashMap<*, *>)
+                Log.d(TAG, "players size: " + map.size)
+                val players = ArrayList<Player>()
+                for (key in map.keys) {
+                    val playerMap = map[key] as HashMap<*, *>
+                    val player = Gson().fromJson(JSONObject(playerMap).toString(), Player::class.java)
+                    player.playerId = key.toString()
+                    players.add(player)
+                }
 
-        mFirebaseDatabase.keepSynced(true)
-
-        // Attach a listener to read the data at our posts reference
-        mFirebaseDatabase.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                val post = dataSnapshot.value
-                if (post != null) {
-                    try {
-                        val map = (post as HashMap<*, *>)
-                        Log.d(TAG, "players size: " + map.size)
-                        val players = ArrayList<Player>()
-                        for (key in map.keys) {
-                            val playerMap = map[key] as HashMap<*, *>
-                            val player = Gson().fromJson(JSONObject(playerMap).toString(), Player::class.java)
-                            player.playerId = key.toString()
-                            players.add(player)
-                        }
-
-                        if (players.isNotEmpty()) {
-                            Log.d(TAG, "playrs success")
-                            onRequestListenerSucces.onSuccess(players)
-                        } else {
-                            Log.d(TAG, "playrs null response")
-                            val error = GenericError(ErrorType.NULL_RESPONSE, "")
-                            onRequestLietenerFailed.onFailed(error)
-                        }
-                    } catch (e: Exception) {
-                        Log.d(TAG, "playrs null response")
-                        val error = GenericError(ErrorType.NULL_RESPONSE, "")
-                        onRequestLietenerFailed.onFailed(error)
-                    }
+                if (players.isNotEmpty()) {
+                    Log.d(TAG, "players success")
+                    onRequestListenerSucces.onSuccess(players)
                 } else {
-                    Log.d(TAG, "categories null response")
+                    Log.d(TAG, "players null response")
                     val error = GenericError(ErrorType.NULL_RESPONSE, "")
                     onRequestLietenerFailed.onFailed(error)
                 }
+            } catch (e: Exception) {
+                Log.d(TAG, "players null response")
+                val error = GenericError(ErrorType.NULL_RESPONSE, "")
+                onRequestLietenerFailed.onFailed(error)
             }
+        } else {
+            Log.d(TAG, "players null response")
+            val error = GenericError(ErrorType.NULL_RESPONSE, "")
+            onRequestLietenerFailed.onFailed(error)
+        }
+    }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
-                onRequestLietenerFailed.onFailed(databaseError.toException())
-            }
-        })
+    override fun onGettingError(errorResponse: DatabaseError) {
+        println("The read failed: " + errorResponse.code)
+        onRequestLietenerFailed.onFailed(errorResponse.toException())
     }
 
 }

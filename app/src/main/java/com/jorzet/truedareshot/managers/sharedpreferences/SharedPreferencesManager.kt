@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.jorzet.truedareshot.services.sharedpreferences
+package com.jorzet.truedareshot.managers.sharedpreferences
 
 import android.content.Context
 
 /**
- * Created by Jorge Zepeda Tinoco on 08/11/18.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 08/11/18.
  */
 
 abstract class SharedPreferencesManager(context: Context) {

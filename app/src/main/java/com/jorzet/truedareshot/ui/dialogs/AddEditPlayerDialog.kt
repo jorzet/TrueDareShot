@@ -30,9 +30,9 @@ import com.jorzet.truedareshot.models.enums.DialogType
 import com.jorzet.truedareshot.utils.Utils
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 16/07/19.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 27/05/19
  */
 
 class AddEditPlayerDialog: BaseDialog() {

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.jorzet.truedareshot.services.sharedpreferences
+package com.jorzet.truedareshot.managers.sharedpreferences
 
 import com.google.gson.Gson
 import org.json.JSONArray
-import java.util.*
 
 /**
- * Created by Jorge Zepeda Tinoco on 01/05/18.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 20/05/19.
  */
 
 class JsonParser {

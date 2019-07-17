@@ -1,7 +1,13 @@
-package com.jorzet.truedareshot.services.sharedpreferences
+package com.jorzet.truedareshot.managers.sharedpreferences
 
 import android.annotation.SuppressLint
 import android.content.Context
+
+/**
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 16/07/19.
+ */
 
 class SharedPreferencesManagerImp(context: Context): SharedPreferencesManager(context) {
 

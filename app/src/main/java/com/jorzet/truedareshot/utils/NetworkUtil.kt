@@ -21,11 +21,13 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.wifi.WifiManager
 
+
 /**
  * This class give all network support
  *
- * Created by Jorge Zepeda Tinoco on 24/04/18.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 08/11/18
  */
 
 class NetworkUtil {

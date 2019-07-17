@@ -22,9 +22,9 @@ import android.os.Handler
 import com.jorzet.truedareshot.R
 
 /**
- * @author
- * Created by Jorge Zepeda Tinoco on 08/11/18.
- * jorzet.94@gmail.com
+ * @author Jorge Zepeda Tinoco
+ * @email jorzet.94@gmail.com
+ * @date 08/11/18
  */
 
 class SplashActivity: BaseActivityLifeCycle() {
