@@ -30,12 +30,24 @@ import com.jorzet.truedareshot.models.Subcategory
  * @date 23/05/19.
  */
 
-class SubcategoryAdapter(subcategories: List<Subcategory>): RecyclerView.Adapter<SubcategoryViewHolder>() {
+class SubcategoryAdapter(subcategories: List<Subcategory>, category: String, configuration: HashMap<String, HashMap<String, Boolean>>?): RecyclerView.Adapter<SubcategoryViewHolder>() {
 
     /**
      * Model
      */
     private val mSubcategories: List<Subcategory> = subcategories
+    private val mCategory: String = category
+    private val mConfiguration: HashMap<String, HashMap<String, Boolean>>? = configuration
+
+    private lateinit var mOnSubcategorySelectedListener: OnSubcategorySelectedListener
+
+    interface  OnSubcategorySelectedListener {
+        fun onSubcategorySelected(category: String, subcategoryId: String, selected: Boolean)
+    }
+
+    fun setOnSubcategorySelectedListener(onSubcategorySelectedListener: OnSubcategorySelectedListener) {
+        this.mOnSubcategorySelectedListener = onSubcategorySelectedListener
+    }
 
     override fun onCreateViewHolder(patern: ViewGroup, p1: Int): SubcategoryViewHolder {
         val view = LayoutInflater.from(patern.context).inflate(R.layout.custom_subcategory_item,
@@ -57,6 +69,21 @@ class SubcategoryAdapter(subcategories: List<Subcategory>): RecyclerView.Adapter
             val emoji = String(Character.toChars(Integer.parseInt(hexString, 16)))
             holder.mEmoji.text.append(emoji);
         }
+
+        if (mConfiguration != null && mConfiguration.get(mCategory) != null
+            && mConfiguration.get(mCategory)?.get(subcategory.subcategoryId) != null) {
+            holder.mConfigSwitch.isChecked = mConfiguration.get(mCategory)?.get(subcategory.subcategoryId)!!
+        } else {
+            holder.mConfigSwitch.isChecked = true
+        }
+
+        holder.mConfigSwitch.setOnCheckedChangeListener(object: CompoundButton.OnCheckedChangeListener {
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                if (::mOnSubcategorySelectedListener.isInitialized) {
+                    mOnSubcategorySelectedListener.onSubcategorySelected(mCategory, subcategory.subcategoryId, isChecked)
+                }
+            }
+        })
     }
 
 }

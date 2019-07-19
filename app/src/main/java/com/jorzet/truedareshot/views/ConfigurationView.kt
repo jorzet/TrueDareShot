@@ -9,5 +9,5 @@ import com.jorzet.truedareshot.models.Category
  */
 
 interface ConfigurationView: BaseView {
-    fun updateConfigurationData(categories: List<Category>)
+    fun updateConfigurationData(categories: List<Category>, config: HashMap<String, HashMap<String, Boolean>>?)
 }

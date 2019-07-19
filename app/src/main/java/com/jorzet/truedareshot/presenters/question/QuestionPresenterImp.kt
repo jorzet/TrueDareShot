@@ -42,12 +42,19 @@ class QuestionPresenterImp: QuestionPresenter {
     private var mSharedPreferencesManager: SharedPreferencesManager? = null
     private var mRequestManager : FirebaseRequestManager? = null
 
+    /**
+     * Model
+     */
+    private var mConfiguration: HashMap<String, HashMap<String, Boolean>>? = null
+
     override fun create(view: QuestionView) {
         mQuestionView = view
 
         // init manager
         mSharedPreferencesManager = SharedPreferencesManager.getInstance(view.getBaseContext())
         mRequestManager = FirebaseRequestManager.getInstance(view.getBaseContext())
+
+        mConfiguration = mSharedPreferencesManager?.getConfiguration()
 
         // init
         initializeView()
@@ -61,7 +68,8 @@ class QuestionPresenterImp: QuestionPresenter {
             mQuestionView.updateQuestionType(mQuestionView.getBaseContext().resources.getString(R.string.play_text))
         }
 
-        requestQuestion()
+
+        requestQuestion("true", "s1")
     }
 
     override fun destroy() {
@@ -80,8 +88,9 @@ class QuestionPresenterImp: QuestionPresenter {
 
     }
 
-    override fun requestQuestion() {
-        mRequestManager?.requestGetQuestions(object : FirebaseRequestManager.OnGetQuestionsListener {
+    override fun requestQuestion(category: String, subcategory: String) {
+        mRequestManager?.requestGetQuestions(category, subcategory,
+            object : FirebaseRequestManager.OnGetQuestionsListener {
             override fun onGetQuestionsLoaded(questions: List<Question>) {
 
             }

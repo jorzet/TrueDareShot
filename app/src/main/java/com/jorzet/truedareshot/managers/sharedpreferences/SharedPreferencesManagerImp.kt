@@ -2,6 +2,10 @@ package com.jorzet.truedareshot.managers.sharedpreferences
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
+
 
 /**
  * @author Jorge Zepeda Tinoco
@@ -64,5 +68,26 @@ class SharedPreferencesManagerImp(context: Context): SharedPreferencesManager(co
     override fun isFirstQuestionShown(): Boolean {
         val prefs = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
         return prefs.getBoolean(FIRST_QUESTION_SHOWN, false)
+    }
+
+    override fun saveConfiguration(config: HashMap<String, HashMap<String, Boolean>>?) {
+        val editor = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
+        if (config != null) {
+            val configString = JsonParser.parseObjectToJson(config)
+            editor.putString(JSON_CONFIG, configString)
+        } else {
+            editor.putString(JSON_CONFIG, null)
+        }
+        editor.apply()
+    }
+
+    override fun getConfiguration(): HashMap<String, HashMap<String, Boolean>>? {
+        val prefs = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        val configJson = prefs.getString(JSON_CONFIG, "")
+        if (configJson == "") return null
+
+        val empMapType = object : TypeToken<HashMap<String, HashMap<String, Boolean>>>() {}.type
+
+        return Gson().fromJson(configJson, empMapType)
     }
 }

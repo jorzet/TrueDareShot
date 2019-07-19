@@ -65,7 +65,7 @@ class FirebaseRequestManagerImp(activity: Activity): FirebaseRequestManager(acti
     }
 
     override fun requestGetQuestions(onGetQuestionsListener: OnGetQuestionsListener) {
-        val questionsTask = QuestionsTask()
+        val questionsTask = QuestionsTask("true", "s1")
 
         questionsTask.setOnRequestSuccess(object: AbstractRequestTask.OnRequestListenerSuccess<List<Question>> {
             override fun onSuccess(result: List<Question>) {

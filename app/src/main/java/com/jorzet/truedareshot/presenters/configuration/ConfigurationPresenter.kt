@@ -16,6 +16,7 @@
 
 package com.jorzet.truedareshot.presenters.configuration
 
+import com.jorzet.truedareshot.adapters.SubcategoryAdapter
 import com.jorzet.truedareshot.presenters.BasePresenter
 import com.jorzet.truedareshot.views.ConfigurationView
 
@@ -26,6 +27,9 @@ import com.jorzet.truedareshot.views.ConfigurationView
  */
 
 interface ConfigurationPresenter: BasePresenter<ConfigurationView> {
+    fun getOnSubcategorySelectedListener(): SubcategoryAdapter.OnSubcategorySelectedListener
+    fun saveUserConfiguration()
+    fun getUserConfiguration(): HashMap<String, HashMap<String, Boolean>>?
     fun requestCategories()
     fun requestSubcategories()
 }

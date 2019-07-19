@@ -64,7 +64,7 @@ abstract class FirebaseRequestManager(activity: Activity) {
         fun onGetPlayersError(throwable: Throwable)
     }
 
-    abstract fun requestGetQuestions(onGetQuestionsListener: OnGetQuestionsListener)
+    abstract fun requestGetQuestions(category: String, subcategory: String, onGetQuestionsListener: OnGetQuestionsListener)
 
     /**
      * @param onGetCategoriesListener categories response listener

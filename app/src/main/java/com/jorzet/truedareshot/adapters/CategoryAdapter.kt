@@ -33,7 +33,8 @@ import com.jorzet.truedareshot.models.Category
  * @date 23/05/19.
  */
 
-class CategoryAdapter(context: Context, categories: List<Category>): RecyclerView.Adapter<CategoryViewHolder>() {
+class CategoryAdapter(context: Context, categories: List<Category>, configuration: HashMap<String, HashMap<String, Boolean>>?):
+    RecyclerView.Adapter<CategoryViewHolder>() {
 
     /**
      * Attributes
@@ -44,6 +45,16 @@ class CategoryAdapter(context: Context, categories: List<Category>): RecyclerVie
      * Model
      */
     private val mCategories: List<Category> = categories
+    private val mConfiguration: HashMap<String, HashMap<String, Boolean>>? = configuration
+
+    /**
+     * Listener
+     */
+    private lateinit var mOnSubcategorySelectedListener: SubcategoryAdapter.OnSubcategorySelectedListener
+
+    fun setOnSubcategorySelectedListener(onSubcategorySelectedListener: SubcategoryAdapter.OnSubcategorySelectedListener) {
+        this.mOnSubcategorySelectedListener = onSubcategorySelectedListener
+    }
 
     override fun onCreateViewHolder(patern: ViewGroup, viewType: Int): CategoryViewHolder {
         val view = LayoutInflater.from(patern.context).inflate(R.layout.custom_category_item, patern, false)
@@ -57,7 +68,8 @@ class CategoryAdapter(context: Context, categories: List<Category>): RecyclerVie
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = mCategories[position]
 
-        val subcategoryAdapter = SubcategoryAdapter(category.subcategoriesList)
+        val subcategoryAdapter = SubcategoryAdapter(category.subcategoriesList, category.categoryId, mConfiguration)
+        subcategoryAdapter.setOnSubcategorySelectedListener(mOnSubcategorySelectedListener)
         holder.mSubcategoryConfig.adapter = subcategoryAdapter
         holder.mSubcategoryConfig.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
 

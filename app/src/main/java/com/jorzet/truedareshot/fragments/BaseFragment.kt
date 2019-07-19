@@ -18,6 +18,7 @@ package com.jorzet.truedareshot.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager
 import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
 
 
@@ -30,10 +31,16 @@ import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManag
 abstract class BaseFragment: Fragment() {
 
     private lateinit var mSharedPreferencesManager: SharedPreferencesManager
+    private lateinit var mRequestManager: FirebaseRequestManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mSharedPreferencesManager = SharedPreferencesManager.getInstance(context!!)
+        mRequestManager = FirebaseRequestManager.getInstance(activity!!)
+
+        val mConfiguration = mSharedPreferencesManager.getConfiguration()
+
+        //mRequestManager.requestGetQuestions()
     }
 
     fun isFirstQuestionShown(): Boolean {

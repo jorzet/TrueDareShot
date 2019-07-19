@@ -37,6 +37,7 @@ abstract class SharedPreferencesManager(context: Context) {
     protected val SHARED_PREFERENCES_NAME : String = "shared_preferences_name"
     protected val JSON_QUESTION : String = "json_question"
     protected val FIRST_QUESTION_SHOWN = "first_question_shown"
+    protected val JSON_CONFIG: String = "json_configuration"
 
     companion object {
         fun getInstance(context: Context): SharedPreferencesManager {
@@ -78,4 +79,7 @@ abstract class SharedPreferencesManager(context: Context) {
      */
     abstract fun isFirstQuestionShown(): Boolean
 
+    abstract fun saveConfiguration(config: HashMap<String, HashMap<String, Boolean>>?)
+
+    abstract fun getConfiguration(): HashMap<String, HashMap<String, Boolean>>?
 }

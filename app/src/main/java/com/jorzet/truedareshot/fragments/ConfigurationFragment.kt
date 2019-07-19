@@ -82,13 +82,13 @@ class ConfigurationFragment: BaseFragment(), ConfigurationView {
             mConfigurationPresenter.create(this)
     }
 
-
     override fun getBaseContext(): Activity {
         return this.activity!!
     }
 
-    override fun updateConfigurationData(categories: List<Category>) {
-        mCategoryAdapter = CategoryAdapter(context!!, categories)
+    override fun updateConfigurationData(categories: List<Category>, config: HashMap<String, HashMap<String, Boolean>>?) {
+        mCategoryAdapter = CategoryAdapter(context!!, categories, config)
+        mCategoryAdapter.setOnSubcategorySelectedListener(mConfigurationPresenter.getOnSubcategorySelectedListener())
         mConfigurationRecyclerView.adapter = mCategoryAdapter
         mConfigurationRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }

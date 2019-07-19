@@ -41,5 +41,5 @@ interface QuestionPresenter: BasePresenter<QuestionView> {
     /**
      *
      */
-    fun requestQuestion()
+    fun requestQuestion(category: String, subcategory: String)
 }

@@ -26,15 +26,13 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class Question(
-    @SerializedName("status")
+    @SerializedName("category")
     @Expose
-    var status : Boolean = false,
-    @SerializedName("subcategoria")
+    var category: String,
+    @SerializedName("subcategory")
     @Expose
-    var subcategoria : Subcategory,
-    @SerializedName("question")
+    var subcategory: String,
+    @SerializedName("text")
     @Expose
-    var question : String,
-
-    var questionId : Int = 0
+    var text : String
 )

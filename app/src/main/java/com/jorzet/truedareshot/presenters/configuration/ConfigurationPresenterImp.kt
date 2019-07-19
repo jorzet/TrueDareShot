@@ -16,6 +16,7 @@
 
 package com.jorzet.truedareshot.presenters.configuration
 
+import com.jorzet.truedareshot.adapters.SubcategoryAdapter
 import com.jorzet.truedareshot.models.Category
 import com.jorzet.truedareshot.models.Subcategory
 import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager
@@ -45,6 +46,33 @@ class ConfigurationPresenterImp: ConfigurationPresenter {
      * Model
      */
     private lateinit var mCategories: List<Category>
+    private var mConfiguration: HashMap<String, HashMap<String, Boolean>>? = null
+
+    /**
+     * Listener
+     */
+    private val mOnSubcategorySelectedListener = object: SubcategoryAdapter.OnSubcategorySelectedListener {
+        override fun onSubcategorySelected(category: String, subcategoryId: String, selected: Boolean) {
+            if (mConfiguration == null || (mConfiguration != null && mConfiguration?.get(category) == null)) {
+
+                if (mConfiguration == null) {
+                    mConfiguration = HashMap()
+                }
+
+                val subcategoryHashMap = HashMap<String, Boolean>()
+                subcategoryHashMap.put(subcategoryId, selected)
+                mConfiguration?.put(category, subcategoryHashMap)
+            } else {
+                val subcategory = mConfiguration?.get(category)
+                subcategory?.put(subcategoryId, selected)
+            }
+            saveUserConfiguration()
+        }
+    }
+
+    override fun getOnSubcategorySelectedListener(): SubcategoryAdapter.OnSubcategorySelectedListener {
+        return mOnSubcategorySelectedListener
+    }
 
     override fun create(view: ConfigurationView) {
         mConfigurationView = view
@@ -59,6 +87,14 @@ class ConfigurationPresenterImp: ConfigurationPresenter {
     override fun destroy() {
         mSharedPreferencesManager?.destroy()
         mRequestManager?.destroy()
+    }
+
+    override fun getUserConfiguration(): HashMap<String, HashMap<String, Boolean>>? {
+        return mSharedPreferencesManager?.getConfiguration()
+    }
+
+    override fun saveUserConfiguration() {
+        mSharedPreferencesManager?.saveConfiguration(mConfiguration)
     }
 
     override fun requestCategories() {
@@ -78,18 +114,40 @@ class ConfigurationPresenterImp: ConfigurationPresenter {
     override fun requestSubcategories() {
         mRequestManager?.requestGetSubcategories(object: FirebaseRequestManager.OnGetSubcategoriesListener {
             override fun onGetSubcategoriesLoaded(subcategories: List<Subcategory>) {
+
+                mConfiguration = getUserConfiguration()
+                var configuration = mConfiguration
+                if (mConfiguration == null) {
+                    configuration = HashMap()
+                }
+
                 if (mCategories.isNotEmpty()) {
                     for (subcategory in subcategories) {
                         for (category in mCategories) {
                             for (subcategoryId in category.subcategoryIdList){
-                                if (subcategoryId.equals(subcategory.subcategoryId)) {
+                                if (subcategoryId == subcategory.subcategoryId) {
+
+                                    if (mConfiguration == null) {
+
+                                        if (configuration?.get(category.categoryId) != null) {
+                                            val subcategoryHashMap = configuration.get(category.categoryId)
+                                            subcategoryHashMap?.put(subcategoryId, true)
+                                        } else {
+                                            val subcategoryHashMap = HashMap<String, Boolean>()
+                                            subcategoryHashMap.put(subcategoryId, true)
+                                            configuration?.put(category.categoryId, subcategoryHashMap)
+                                        }
+                                    }
+
                                     category.subcategoriesList.add(subcategory)
-                                    break;
+                                    break
                                 }
                             }
                         }
                     }
-                    mConfigurationView.updateConfigurationData(mCategories)
+                    mConfiguration = configuration
+                    saveUserConfiguration()
+                    mConfigurationView.updateConfigurationData(mCategories, mConfiguration)
                 }
             }
 
