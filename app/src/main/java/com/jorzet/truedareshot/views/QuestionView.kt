@@ -52,13 +52,6 @@ interface QuestionView: BaseView {
     fun setCurrentPlayerName(currentPlayer: String)
 
     /**
-     * set the group name
-     *
-     * @param currentGroupName group name
-     */
-    fun setCurrentGroupName(currentGroupName: String)
-
-    /**
      * @param questionText
      */
     fun setQuestionText(questionText: String)

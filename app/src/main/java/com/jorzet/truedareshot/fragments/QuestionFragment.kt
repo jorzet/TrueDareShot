@@ -147,10 +147,6 @@ class QuestionFragment: BaseFragment(), QuestionView {
 
     }
 
-    override fun setCurrentGroupName(currentGroupName: String) {
-
-    }
-
     override fun setQuestionText(questionText: String) {
         if (::mQuestionText.isInitialized) {
             mQuestionText.text = questionText
