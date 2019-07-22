@@ -17,6 +17,8 @@
 package com.jorzet.truedareshot.managers.sharedpreferences
 
 import android.content.Context
+import com.jorzet.truedareshot.models.Question
+import com.jorzet.truedareshot.models.enums.QuestionType
 
 /**
  * @author Jorge Zepeda Tinoco
@@ -35,7 +37,9 @@ abstract class SharedPreferencesManager(context: Context) {
      * Tags to save data
      */
     protected val SHARED_PREFERENCES_NAME : String = "shared_preferences_name"
-    protected val JSON_QUESTION : String = "json_question"
+    protected val JSON_QUESTIONS_TRUE : String = "json_questions_true"
+    protected val JSON_QUESTIONS_DARE : String = "json_questions_dare"
+    protected val JSON_QUESTIONS_SHOT : String = "json_questions_shot"
     protected val FIRST_QUESTION_SHOWN = "first_question_shown"
     protected val JSON_CONFIG: String = "json_configuration"
 
@@ -56,16 +60,16 @@ abstract class SharedPreferencesManager(context: Context) {
     abstract fun removeSessionData()
 
     /**
-     * store json with JSON_QUESTION tag
-     * @param [Question] object in Json [Stirng]
+     * store json with JSON_QUESTIONS tag
+     * @param questions object in object list [Question]
      */
-    abstract fun storeJsonQuestion(json : String)
+    abstract fun saveQuestions(questions: List<Question>, questionType: QuestionType)
 
     /**
      * Return a json string that contains question object
      * @return Question in Json [String]
      */
-    abstract fun getJsonQuestion() : String?
+    abstract fun getQuestions(questionType: QuestionType) : List<Question>?
 
     /**
      * Set flag to know if first question is shown

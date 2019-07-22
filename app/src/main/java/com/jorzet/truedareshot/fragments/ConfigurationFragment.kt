@@ -25,6 +25,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.adapters.CategoryAdapter
+import com.jorzet.truedareshot.adapters.SubcategoryAdapter
 import com.jorzet.truedareshot.models.Category
 import com.jorzet.truedareshot.presenters.configuration.ConfigurationPresenter
 import com.jorzet.truedareshot.presenters.configuration.ConfigurationPresenterImp
@@ -82,15 +83,24 @@ class ConfigurationFragment: BaseFragment(), ConfigurationView {
             mConfigurationPresenter.create(this)
     }
 
+    private val mOnSubcategorySelectedListener =
+        object: SubcategoryAdapter.OnSubcategorySelectedListener {
+            override fun onSubcategorySelected(category: String, subcategoryId: String, selected: Boolean) {
+                if (::mConfigurationPresenter.isInitialized) {
+                    mConfigurationPresenter.updateNewConfiguration(category, subcategoryId, selected)
+                }
+                requestQuestions()
+            }
+        }
+
     override fun getBaseContext(): Activity {
         return this.activity!!
     }
 
     override fun updateConfigurationData(categories: List<Category>, config: HashMap<String, HashMap<String, Boolean>>?) {
         mCategoryAdapter = CategoryAdapter(context!!, categories, config)
-        mCategoryAdapter.setOnSubcategorySelectedListener(mConfigurationPresenter.getOnSubcategorySelectedListener())
+        mCategoryAdapter.setOnSubcategorySelectedListener(mOnSubcategorySelectedListener)
         mConfigurationRecyclerView.adapter = mCategoryAdapter
         mConfigurationRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
-
 }

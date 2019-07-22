@@ -27,7 +27,7 @@ import com.jorzet.truedareshot.views.ConfigurationView
  */
 
 interface ConfigurationPresenter: BasePresenter<ConfigurationView> {
-    fun getOnSubcategorySelectedListener(): SubcategoryAdapter.OnSubcategorySelectedListener
+    fun updateNewConfiguration(category: String, subcategoryId: String, selected: Boolean)
     fun saveUserConfiguration()
     fun getUserConfiguration(): HashMap<String, HashMap<String, Boolean>>?
     fun requestCategories()

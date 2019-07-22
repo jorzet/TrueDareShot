@@ -17,6 +17,7 @@
 package com.jorzet.truedareshot.fragments
 
 import android.app.Activity
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.jorzet.truedareshot.R
+import com.jorzet.truedareshot.models.enums.QuestionType
 import com.jorzet.truedareshot.presenters.question.QuestionPresenter
 import com.jorzet.truedareshot.presenters.question.QuestionPresenterImp
 import com.jorzet.truedareshot.views.QuestionView
@@ -45,7 +47,6 @@ class QuestionFragment: BaseFragment(), QuestionView {
      * UI accessors
      */
     private lateinit var mQuestionType: TextView
-    private lateinit var mGroupTextView: TextView
     private lateinit var mUserName: TextView
     private lateinit var mQuestionLevel: TextView
     private lateinit var mQuestionText: TextView
@@ -73,7 +74,6 @@ class QuestionFragment: BaseFragment(), QuestionView {
         val rootView = inflater.inflate(R.layout.questions_fragment, container, false)
 
         mQuestionType = rootView.findViewById(R.id.tv_question_type)
-        mGroupTextView = rootView.findViewById(R.id.tv_group)
         mUserName = rootView.findViewById(R.id.tv_user)
         mQuestionLevel = rootView.findViewById(R.id.tv_question_level)
         mQuestionText = rootView.findViewById(R.id.tv_question_text)
@@ -96,24 +96,19 @@ class QuestionFragment: BaseFragment(), QuestionView {
     }
 
     private val mTrueButtonListener = View.OnClickListener {
-        showQuestionText()
-        setFirstQuestionShown(true)
 
-        updateQuestionType(resources.getString(R.string.true_text))
+        setFirstQuestionShown(true)
+        mQuestionPresenter.updateQuestionView(QuestionType.TRUE)
     }
 
     private val mShotButtonListener = View.OnClickListener {
-        showQuestionText()
         setFirstQuestionShown(true)
-
-        updateQuestionType(resources.getString(R.string.shot_text))
+        mQuestionPresenter.updateQuestionView(QuestionType.SHOT)
     }
 
     private val mDareButtonListener = View.OnClickListener {
-        showQuestionText()
         setFirstQuestionShown(true)
-
-        updateQuestionType(resources.getString(R.string.dare_text))
+        mQuestionPresenter.updateQuestionView(QuestionType.DARE)
     }
 
     override fun getBaseContext(): Activity {
@@ -125,7 +120,7 @@ class QuestionFragment: BaseFragment(), QuestionView {
             mButtonWaitingContainer.visibility = View.GONE
 
         if (::mQuestionLevel.isInitialized)
-            mQuestionLevel.visibility = View.VISIBLE
+            mQuestionLevel.visibility = View.GONE
 
         if (::mQuestionText.isInitialized)
             mQuestionText.visibility = View.VISIBLE
@@ -154,6 +149,16 @@ class QuestionFragment: BaseFragment(), QuestionView {
 
     override fun setCurrentGroupName(currentGroupName: String) {
 
+    }
+
+    override fun setQuestionText(questionText: String) {
+        if (::mQuestionText.isInitialized) {
+            mQuestionText.text = questionText
+        }
+    }
+
+    override fun getFragmentResources(): Resources {
+        return resources
     }
 
 }

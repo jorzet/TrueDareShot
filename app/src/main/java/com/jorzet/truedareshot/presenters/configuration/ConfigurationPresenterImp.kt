@@ -51,8 +51,7 @@ class ConfigurationPresenterImp: ConfigurationPresenter {
     /**
      * Listener
      */
-    private val mOnSubcategorySelectedListener = object: SubcategoryAdapter.OnSubcategorySelectedListener {
-        override fun onSubcategorySelected(category: String, subcategoryId: String, selected: Boolean) {
+    override fun updateNewConfiguration(category: String, subcategoryId: String, selected: Boolean) {
             if (mConfiguration == null || (mConfiguration != null && mConfiguration?.get(category) == null)) {
 
                 if (mConfiguration == null) {
@@ -67,11 +66,7 @@ class ConfigurationPresenterImp: ConfigurationPresenter {
                 subcategory?.put(subcategoryId, selected)
             }
             saveUserConfiguration()
-        }
-    }
 
-    override fun getOnSubcategorySelectedListener(): SubcategoryAdapter.OnSubcategorySelectedListener {
-        return mOnSubcategorySelectedListener
     }
 
     override fun create(view: ConfigurationView) {

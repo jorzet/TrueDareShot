@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
+import com.jorzet.truedareshot.models.Question
+import com.jorzet.truedareshot.models.enums.QuestionType
 
 
 /**
@@ -48,15 +49,32 @@ class SharedPreferencesManagerImp(context: Context): SharedPreferencesManager(co
         mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).edit().clear().apply()
     }
 
-    override fun storeJsonQuestion(json : String) {
+    override fun saveQuestions(questions: List<Question>, questionType: QuestionType) {
         val editor = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
-        editor.putString(JSON_QUESTION, json)
+
+        val questionListType = object : TypeToken<List<Question>>() {}.type
+        val json = Gson().toJson(questions, questionListType)
+        when (questionType) {
+            QuestionType.TRUE -> editor.putString(JSON_QUESTIONS_TRUE, json)
+            QuestionType.DARE -> editor.putString(JSON_QUESTIONS_DARE, json)
+            QuestionType.SHOT -> editor.putString(JSON_QUESTIONS_SHOT, json)
+        }
+
         editor.apply()
     }
 
-    override fun getJsonQuestion() : String? {
+    override fun getQuestions(questionType: QuestionType) : List<Question>? {
         val prefs = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-        return prefs.getString(JSON_QUESTION, null)
+
+        val json = when(questionType) {
+            QuestionType.TRUE -> prefs.getString(JSON_QUESTIONS_TRUE, null)
+            QuestionType.DARE -> prefs.getString(JSON_QUESTIONS_DARE, null)
+            QuestionType.SHOT -> prefs.getString(JSON_QUESTIONS_SHOT, null)
+        }
+
+        val questionListType = object : TypeToken<List<Question>>() {}.type
+        val questions = Gson().fromJson<List<Question>>(json, questionListType)
+        return questions
     }
 
     override fun setFirstQuestionShown(isFirstQuestionShown: Boolean) {

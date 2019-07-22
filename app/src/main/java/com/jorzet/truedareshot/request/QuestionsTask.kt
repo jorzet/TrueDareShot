@@ -79,14 +79,8 @@ class QuestionsTask(category: String, subcategory: String): AbstractRequestTask<
                     }
                 }
 
-                if (questions.isNotEmpty()) {
-                    Log.d(TAG, "categories success")
-                    onRequestListenerSucces.onSuccess(questions)
-                } else {
-                    Log.d(TAG, "categories null response")
-                    val error = GenericError(ErrorType.NULL_RESPONSE, "")
-                    onRequestLietenerFailed.onFailed(error)
-                }
+                Log.d(TAG, "categories success")
+                onRequestListenerSucces.onSuccess(questions)
             } catch (e: Exception) {
                 Log.d(TAG, "questions null response")
                 val error = GenericError(ErrorType.NULL_RESPONSE, "")

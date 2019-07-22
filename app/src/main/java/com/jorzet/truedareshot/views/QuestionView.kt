@@ -16,6 +16,8 @@
 
 package com.jorzet.truedareshot.views
 
+import android.content.res.Resources
+
 
 /**
  * @author Jorge Zepeda Tinoco
@@ -55,4 +57,11 @@ interface QuestionView: BaseView {
      * @param currentGroupName group name
      */
     fun setCurrentGroupName(currentGroupName: String)
+
+    /**
+     * @param questionText
+     */
+    fun setQuestionText(questionText: String)
+
+    fun getFragmentResources(): Resources
 }

@@ -21,7 +21,9 @@ import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.Question
 import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager
 import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
+import com.jorzet.truedareshot.models.enums.QuestionType
 import com.jorzet.truedareshot.views.QuestionView
+import kotlin.random.Random
 
 /**
  * @author Jorge Zepeda Tinoco
@@ -46,6 +48,7 @@ class QuestionPresenterImp: QuestionPresenter {
      * Model
      */
     private var mConfiguration: HashMap<String, HashMap<String, Boolean>>? = null
+    private var mQuestions : List<Question>? = arrayListOf()
 
     override fun create(view: QuestionView) {
         mQuestionView = view
@@ -68,8 +71,6 @@ class QuestionPresenterImp: QuestionPresenter {
             mQuestionView.updateQuestionType(mQuestionView.getBaseContext().resources.getString(R.string.play_text))
         }
 
-
-        requestQuestion("true", "s1")
     }
 
     override fun destroy() {
@@ -88,19 +89,35 @@ class QuestionPresenterImp: QuestionPresenter {
 
     }
 
-    override fun requestQuestion(category: String, subcategory: String) {
-        mRequestManager?.requestGetQuestions(category, subcategory,
-            object : FirebaseRequestManager.OnGetQuestionsListener {
-            override fun onGetQuestionsLoaded(questions: List<Question>) {
+    override fun updateQuestionView(questionType: QuestionType) {
+        mQuestionView.showQuestionText()
 
+        mQuestions = mSharedPreferencesManager?.getQuestions(questionType)
+        getRandomQuestion()
+
+        when(questionType) {
+            QuestionType.TRUE -> {
+                mQuestionView.updateQuestionType(mQuestionView.getFragmentResources().getString(R.string.true_text))
             }
-
-            override fun onGetQuestionsError(throwable: Throwable) {
-
+            QuestionType.DARE -> {
+                mQuestionView.updateQuestionType(mQuestionView.getFragmentResources().getString(R.string.dare_text))
             }
-
-        })
+            QuestionType.SHOT -> {
+                mQuestionView.updateQuestionType(mQuestionView.getFragmentResources().getString(R.string.shot_text))
+            }
+        }
     }
 
+    override fun getRandomQuestion() {
+        if (!mQuestions.isNullOrEmpty()) {
+            val randomIndex = (0 until ((mQuestions?.size )?: 0)).random()
+
+            val question: Question? = mQuestions!![randomIndex]
+
+            if (question != null) {
+                mQuestionView.setQuestionText(question.text)
+            }
+        }
+    }
 
 }

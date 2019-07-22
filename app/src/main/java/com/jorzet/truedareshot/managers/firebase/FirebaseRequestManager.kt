@@ -22,6 +22,7 @@ import com.jorzet.truedareshot.models.Category
 import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.Question
 import com.jorzet.truedareshot.models.Subcategory
+import com.jorzet.truedareshot.models.enums.QuestionType
 
 /**
  * @author Jorge Zepeda Tinoco
@@ -45,7 +46,7 @@ abstract class FirebaseRequestManager(activity: Activity) {
     }
 
     interface OnGetQuestionsListener {
-        fun onGetQuestionsLoaded(questions: List<Question>)
+        fun onGetQuestionsLoaded(questions: List<Question>, questionType: String)
         fun onGetQuestionsError(throwable: Throwable)
     }
 

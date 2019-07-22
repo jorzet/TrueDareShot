@@ -26,22 +26,10 @@
 					android:text="@string/play_text"/>
 			
 			<TextView
-					android:id="@+id/tv_group"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_below="@+id/tv_question_type"
-					android:layout_marginTop="30dp"
-					android:layout_marginStart="30dp"
-					android:layout_marginLeft="30dp"
-					android:textColor="@android:color/black"
-					android:textSize="20sp"
-					android:text="@string/group_text"/>
-			
-			<TextView
 					android:id="@+id/tv_turn"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_below="@+id/tv_group"
+					android:layout_below="@+id/tv_question_type"
 					android:layout_marginTop="10dp"
 					android:layout_marginStart="30dp"
 					android:layout_marginLeft="30dp"
@@ -53,7 +41,7 @@
 					android:id="@+id/tv_user"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_below="@+id/tv_group"
+					android:layout_below="@+id/tv_question_type"
 					android:layout_toRightOf="@+id/tv_turn"
 					android:layout_toEndOf="@+id/tv_turn"
 					android:layout_marginTop="10dp"
@@ -92,13 +80,13 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_below="@+id/tv_question_level"
-						android:layout_marginTop="20dp"
 						android:layout_centerHorizontal="true"
 						android:layout_centerVertical="true"
+						android:gravity="center"
 						android:textSize="20sp"
 						android:textColor="@android:color/black"
 						android:text="@string/button_waiting"
-				android:visibility="gone"/>
+						android:visibility="gone"/>
 				
 				<LinearLayout
 						android:id="@+id/rl_button_is_waitin_container"

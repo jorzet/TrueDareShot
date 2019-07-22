@@ -20,6 +20,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager
 import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
+import com.jorzet.truedareshot.models.Question
+import com.jorzet.truedareshot.models.enums.QuestionType
 
 
 /**
@@ -30,17 +32,44 @@ import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManag
 
 abstract class BaseFragment: Fragment() {
 
+    /**
+     * Managers
+     */
     private lateinit var mSharedPreferencesManager: SharedPreferencesManager
     private lateinit var mRequestManager: FirebaseRequestManager
+
+    /**
+     * Model
+     */
+    private var mQuestionsTrue = arrayListOf<Question>()
+    private var mQuestionsDare = arrayListOf<Question>()
+    private var mQuestionsShot = arrayListOf<Question>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mSharedPreferencesManager = SharedPreferencesManager.getInstance(context!!)
         mRequestManager = FirebaseRequestManager.getInstance(activity!!)
+        requestQuestions()
+    }
 
+    protected open fun requestQuestions() {
         val mConfiguration = mSharedPreferencesManager.getConfiguration()
 
-        //mRequestManager.requestGetQuestions()
+        if (mConfiguration != null) {
+            mQuestionsTrue.clear()
+            mQuestionsDare.clear()
+            mQuestionsShot.clear()
+
+            for (category in mConfiguration.keys) {
+                for (subcategory in mConfiguration.get(category)?.keys!!) {
+                    val subcategoryHashMap = mConfiguration.get(category) as HashMap<String, Boolean>
+                    val selected = subcategoryHashMap.get(subcategory) == true
+                    if (selected) {
+                        mRequestManager.requestGetQuestions(category, subcategory, mOnGetQuestionsListener)
+                    }
+                }
+            }
+        }
     }
 
     fun isFirstQuestionShown(): Boolean {
@@ -49,6 +78,31 @@ abstract class BaseFragment: Fragment() {
 
     fun setFirstQuestionShown(isFirstQuestionShown: Boolean) {
         mSharedPreferencesManager.setFirstQuestionShown(isFirstQuestionShown)
+    }
+
+    private val mOnGetQuestionsListener =
+        object: FirebaseRequestManager.OnGetQuestionsListener {
+        override fun onGetQuestionsLoaded(questions: List<Question>, questionType: String) {
+
+            when(questionType) {
+                "true" -> {
+                    mQuestionsTrue.addAll(questions)
+                    mSharedPreferencesManager.saveQuestions(mQuestionsTrue, QuestionType.TRUE)
+                }
+                "dare" ->  {
+                    mQuestionsDare.addAll(questions)
+                    mSharedPreferencesManager.saveQuestions(mQuestionsDare, QuestionType.DARE)
+                }
+                "shot" -> {
+                    mQuestionsShot.addAll(questions)
+                    mSharedPreferencesManager.saveQuestions(mQuestionsShot, QuestionType.SHOT)
+                }
+            }
+        }
+
+        override fun onGetQuestionsError(throwable: Throwable) {
+
+        }
     }
 
 }

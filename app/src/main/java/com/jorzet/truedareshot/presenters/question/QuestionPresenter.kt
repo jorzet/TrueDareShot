@@ -17,6 +17,7 @@
 package com.jorzet.truedareshot.presenters.question
 
 import com.jorzet.truedareshot.models.Player
+import com.jorzet.truedareshot.models.enums.QuestionType
 import com.jorzet.truedareshot.presenters.BasePresenter
 import com.jorzet.truedareshot.views.QuestionView
 
@@ -31,6 +32,13 @@ interface QuestionPresenter: BasePresenter<QuestionView> {
     /**
      *
      */
+    fun updateQuestionView(questionType: QuestionType)
+
+    fun getRandomQuestion()
+
+    /**
+     *
+     */
     fun getCurrentPlayer(): Player?
 
     /**
@@ -38,8 +46,4 @@ interface QuestionPresenter: BasePresenter<QuestionView> {
      */
     fun requestGroup()
 
-    /**
-     *
-     */
-    fun requestQuestion(category: String, subcategory: String)
 }
