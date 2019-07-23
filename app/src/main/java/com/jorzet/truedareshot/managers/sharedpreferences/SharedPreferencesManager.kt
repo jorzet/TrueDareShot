@@ -17,6 +17,7 @@
 package com.jorzet.truedareshot.managers.sharedpreferences
 
 import android.content.Context
+import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.Question
 import com.jorzet.truedareshot.models.enums.QuestionType
 
@@ -42,6 +43,7 @@ abstract class SharedPreferencesManager(context: Context) {
     protected val JSON_QUESTIONS_SHOT : String = "json_questions_shot"
     protected val FIRST_QUESTION_SHOWN = "first_question_shown"
     protected val JSON_CONFIG: String = "json_configuration"
+    protected val JSON_PLAYERS: String = "json_players"
 
     companion object {
         fun getInstance(context: Context): SharedPreferencesManager {
@@ -86,4 +88,8 @@ abstract class SharedPreferencesManager(context: Context) {
     abstract fun saveConfiguration(config: HashMap<String, HashMap<String, Boolean>>?)
 
     abstract fun getConfiguration(): HashMap<String, HashMap<String, Boolean>>?
+
+    abstract fun savePlayers(players: ArrayList<Player>?)
+
+    abstract fun getPlayers(): ArrayList<Player>?
 }

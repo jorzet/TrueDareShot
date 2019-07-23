@@ -13,7 +13,7 @@ interface PlayersView: BaseView {
     /**
      *
      */
-    fun updatePlayersData(players: List<Player>)
+    fun updatePlayersData(players: List<Player>?)
 
     /**
      *

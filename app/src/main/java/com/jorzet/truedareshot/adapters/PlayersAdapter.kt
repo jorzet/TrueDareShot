@@ -32,7 +32,7 @@ import com.jorzet.truedareshot.utils.Utils
  * @date 24/05/19.
  */
 
-class PlayersAdapter(context: Context, players: List<Player>) : BaseAdapter() {
+class PlayersAdapter(context: Context, players: List<Player>?) : BaseAdapter() {
 
     /**
      * Attributes
@@ -43,7 +43,7 @@ class PlayersAdapter(context: Context, players: List<Player>) : BaseAdapter() {
     /**
      * Model
      */
-    val mPlayers: List<Player> = players
+    val mPlayers: List<Player>? = players
 
 
     interface OnPlayerClickListener {
@@ -51,24 +51,27 @@ class PlayersAdapter(context: Context, players: List<Player>) : BaseAdapter() {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val currentPlayer = getItem(position) as Player
+        val currentPlayer = getItem(position)
 
         val playerView = LayoutInflater.from(mContext).inflate(R.layout.custom_player_item, null, false)
-        val playerViewHolder = PlayerViewHolder(playerView)
+        if (currentPlayer != null) {
+            val playerViewHolder = PlayerViewHolder(playerView)
 
-        val nickName = Utils.unicodeToEmoji(currentPlayer.playerName)
+            val nickName = Utils.unicodeToEmoji(currentPlayer.playerName)
 
-        playerViewHolder.mPlayerNickName.append(nickName)
+            playerViewHolder.mPlayerNickName.append(nickName)
 
-        playerViewHolder.mPlayerNickName.setOnClickListener {
-            if (::mOnPlayerClickListener.isInitialized) mOnPlayerClickListener.onPlayerClick(currentPlayer)
+            playerViewHolder.mPlayerNickName.setOnClickListener {
+                if (::mOnPlayerClickListener.isInitialized) mOnPlayerClickListener.onPlayerClick(currentPlayer)
+            }
         }
-
         return playerView
     }
 
-    override fun getItem(position: Int): Any {
-        return mPlayers[position]
+    override fun getItem(position: Int): Player? {
+        if (mPlayers != null)
+            return mPlayers[position]
+        return null
     }
 
     override fun getItemId(position: Int): Long {
@@ -76,7 +79,9 @@ class PlayersAdapter(context: Context, players: List<Player>) : BaseAdapter() {
     }
 
     override fun getCount(): Int {
-        return mPlayers.size
+        if (mPlayers != null)
+            return mPlayers.size
+        return 0
     }
 }
 

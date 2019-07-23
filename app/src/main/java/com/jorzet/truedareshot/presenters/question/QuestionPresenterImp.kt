@@ -48,7 +48,13 @@ class QuestionPresenterImp: QuestionPresenter {
      * Model
      */
     private var mConfiguration: HashMap<String, HashMap<String, Boolean>>? = null
-    private var mQuestions : List<Question>? = arrayListOf()
+    private var mQuestions: List<Question>? = arrayListOf()
+    private var mPlayers: kotlin.collections.ArrayList<Player>? = arrayListOf()
+
+    /**
+     * Attributes
+     */
+    private var currentPlayer: Int = 0
 
     override fun create(view: QuestionView) {
         mQuestionView = view
@@ -71,6 +77,10 @@ class QuestionPresenterImp: QuestionPresenter {
             mQuestionView.updateQuestionType(mQuestionView.getBaseContext().resources.getString(R.string.play_text))
         }
 
+        mPlayers = mSharedPreferencesManager?.getPlayers()
+        if (!mPlayers.isNullOrEmpty()) {
+            mQuestionView.setCurrentPlayerName(mPlayers!![currentPlayer].playerName)
+        }
     }
 
     override fun destroy() {
@@ -105,6 +115,15 @@ class QuestionPresenterImp: QuestionPresenter {
             QuestionType.SHOT -> {
                 mQuestionView.updateQuestionType(mQuestionView.getFragmentResources().getString(R.string.shot_text))
             }
+        }
+
+        if (mPlayers != null) {
+            if (currentPlayer == mPlayers?.size!! - 1)
+                currentPlayer = 0
+            else
+                currentPlayer++
+
+            mQuestionView.setCurrentPlayerName(mPlayers!![currentPlayer].playerName)
         }
     }
 

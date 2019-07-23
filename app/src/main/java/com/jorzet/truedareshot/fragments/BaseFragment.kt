@@ -16,8 +16,12 @@
 
 package com.jorzet.truedareshot.fragments
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager
 import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
 import com.jorzet.truedareshot.models.Question
@@ -50,6 +54,13 @@ abstract class BaseFragment: Fragment() {
         mSharedPreferencesManager = SharedPreferencesManager.getInstance(context!!)
         mRequestManager = FirebaseRequestManager.getInstance(activity!!)
         requestQuestions()
+    }
+
+    fun Context.hideKeyboard(view: View?) {
+        if (view != null) {
+            val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 
     protected open fun requestQuestions() {

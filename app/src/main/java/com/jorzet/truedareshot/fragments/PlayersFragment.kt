@@ -17,11 +17,13 @@
 package com.jorzet.truedareshot.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import com.jorzet.truedareshot.R
@@ -117,7 +119,7 @@ class PlayersFragment: BaseFragment(), PlayersView, BaseDialog.OnDialogListener 
         return this.activity!!
     }
 
-    override fun updatePlayersData(players: List<Player>) {
+    override fun updatePlayersData(players: List<Player>?) {
         mPlayerAdapter = PlayersAdapter(context!!, players)
         mPlayerAdapter.mOnPlayerClickListener = mPlayersItemClickListener
         mPlayersListView.adapter = mPlayerAdapter
@@ -137,14 +139,15 @@ class PlayersFragment: BaseFragment(), PlayersView, BaseDialog.OnDialogListener 
     }
 
     override fun onConfirmationCancel() {
-
+        context?.hideKeyboard(this.view)
     }
 
     override fun onConfirmationNeutral(arguments: Bundle) {
-
+        context?.hideKeyboard(this.view)
     }
 
     override fun onConfirmationAccept(arguments: Bundle) {
+        context?.hideKeyboard(this.view)
 
         when(arguments.getInt(BaseDialog.REQUEST_CODE)) {
             REQUEST_EDIT_PLAYER -> {
@@ -162,5 +165,4 @@ class PlayersFragment: BaseFragment(), PlayersView, BaseDialog.OnDialogListener 
             }
         }
     }
-
 }

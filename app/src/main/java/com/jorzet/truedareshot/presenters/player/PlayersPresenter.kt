@@ -31,11 +31,6 @@ interface PlayersPresenter: BasePresenter<PlayersView> {
     /**
      *
      */
-    fun requestGetPlayers()
-
-    /**
-     *
-     */
     fun requestAddPlayer(playerNickName: String)
 
     /**
@@ -46,5 +41,5 @@ interface PlayersPresenter: BasePresenter<PlayersView> {
     /**
      *
      */
-    fun getLastPlayerId(players: List<Player>): Int
+    fun getLastPlayerId(players: List<Player>?): Int
 }

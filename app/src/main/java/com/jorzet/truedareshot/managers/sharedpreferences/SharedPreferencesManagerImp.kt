@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.Question
 import com.jorzet.truedareshot.models.enums.QuestionType
 
@@ -107,5 +108,21 @@ class SharedPreferencesManagerImp(context: Context): SharedPreferencesManager(co
         val empMapType = object : TypeToken<HashMap<String, HashMap<String, Boolean>>>() {}.type
 
         return Gson().fromJson(configJson, empMapType)
+    }
+
+    override fun savePlayers(players: ArrayList<Player>?) {
+        val editor = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
+        val playerListType = object : TypeToken<ArrayList<Player>>() {}.type
+        val json = Gson().toJson(players, playerListType)
+        editor.putString(JSON_PLAYERS, json)
+        editor.apply()
+    }
+
+    override fun getPlayers(): ArrayList<Player>? {
+        val prefs = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        val json = prefs.getString(JSON_PLAYERS, null)
+        val playerListType = object : TypeToken<ArrayList<Player>>() {}.type
+        val players = Gson().fromJson<ArrayList<Player>>(json, playerListType)
+        return players
     }
 }

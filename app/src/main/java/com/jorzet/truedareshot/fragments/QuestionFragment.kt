@@ -144,7 +144,9 @@ class QuestionFragment: BaseFragment(), QuestionView {
     }
 
     override fun setCurrentPlayerName(currentPlayer: String) {
-
+        if (::mUserName.isInitialized) {
+            mUserName.text = currentPlayer
+        }
     }
 
     override fun setQuestionText(questionText: String) {

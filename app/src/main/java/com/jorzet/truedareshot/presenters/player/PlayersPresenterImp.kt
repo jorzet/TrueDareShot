@@ -21,6 +21,7 @@ import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager
 import com.jorzet.truedareshot.managers.sharedpreferences.SharedPreferencesManager
 import com.jorzet.truedareshot.views.PlayersView
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * @author Jorge Zepeda Tinoco
@@ -44,7 +45,7 @@ class PlayersPresenterImp: PlayersPresenter {
     /**
      * Model
      */
-    private lateinit var mPlayers: List<Player>
+    private var mPlayers: ArrayList<Player>? = arrayListOf()
 
     override fun create(view: PlayersView) {
         mPlayersView = view
@@ -58,7 +59,19 @@ class PlayersPresenterImp: PlayersPresenter {
     }
 
     private fun initializeView() {
-        requestGetPlayers()
+        //requestGetPlayers()
+        mPlayers = mSharedPreferencesManager?.getPlayers()
+
+        if (::mPlayersView.isInitialized) {
+            if (!mPlayers.isNullOrEmpty()) {
+                mPlayersView.showPlayerList(true)
+                mPlayersView.updatePlayersData(mPlayers)
+
+            } else {
+                mPlayersView.showPlayerList(false)
+            }
+        }
+
     }
 
     override fun destroy() {
@@ -66,50 +79,43 @@ class PlayersPresenterImp: PlayersPresenter {
         mRequestManager?.destroy()
     }
 
-    override fun requestGetPlayers() {
-        mRequestManager?.requestGetPlayers(object: FirebaseRequestManager.OnGetPlayersListener {
-            override fun onGetPlayersLoaded(players: List<Player>) {
-
-                if (players.isNotEmpty() && ::mPlayersView.isInitialized) {
-                    mPlayers = players
-                    mPlayersView.showPlayerList(true)
-                    mPlayersView.updatePlayersData(players)
-
-                } else {
-                    mPlayersView.showPlayerList(false)
-                }
-            }
-
-            override fun onGetPlayersError(throwable: Throwable) {
-                if (::mPlayersView.isInitialized)
-                    mPlayersView.showPlayerList(false)
-            }
-        })
-    }
-
     override fun requestAddPlayer(playerNickName: String) {
         val id = getLastPlayerId(mPlayers) + 1
         val newPlayer = Player("p$id", playerNickName)
-        val players = mPlayers as ArrayList
+
+        val players: ArrayList<Player> =
+            if (mPlayers != null)
+                mPlayers as ArrayList
+            else {
+                mPlayers = arrayListOf()
+                mPlayers as ArrayList<Player>
+            }
+
         players.add(newPlayer)
 
         mPlayersView.updatePlayersData(players)
+
+        mSharedPreferencesManager?.savePlayers(mPlayers)
     }
 
     override fun requestEditPlayer(playerId: String, playerNickName: String) {
-        if (playerId.isNotEmpty() && ::mPlayers.isInitialized) {
-            for (player in mPlayers) {
+        if (playerId.isNotEmpty() && mPlayers != null) {
+            for (player in mPlayers!!) {
                 if (player.playerId == playerId) {
                     player.playerName = playerNickName
 
                     mPlayersView.updatePlayersData(mPlayers)
+                    mSharedPreferencesManager?.savePlayers(mPlayers)
                     return
                 }
             }
         }
     }
 
-    override fun getLastPlayerId(players: List<Player>): Int {
+    override fun getLastPlayerId(players: List<Player>?): Int {
+        if (players == null)
+            return 0
+
         val ids = arrayListOf<Int>()
 
         for (player in players)
