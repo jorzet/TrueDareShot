@@ -13,7 +13,7 @@
 				android:layout_height="wrap_content">
 			
 			<TextView
-					android:id="@+id/tv_players"
+					android:id="@+id/mPlayersTextView"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_centerHorizontal="true"
@@ -24,18 +24,18 @@
 			
 			
 			<RelativeLayout
-					android:id="@+id/rl_players_container"
+					android:id="@+id/mPlayersContainerRelativeLayout"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:minHeight="400dp"
-					android:layout_below="@+id/tv_players"
+					android:layout_below="@+id/mPlayersTextView"
 					android:layout_marginStart="30dp"
 					android:layout_marginEnd="30dp"
 					android:layout_marginTop="50dp"
 					android:background="@android:color/white">
 				
 				<TextView
-						android:id="@+id/tv_not_players"
+						android:id="@+id/mNotPlayersTextView"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_centerInParent="true"
@@ -44,7 +44,7 @@
 						android:textColor="@android:color/black"/>
 				
 				<com.jorzet.truedareshot.components.NonScrollListView
-						android:id="@+id/nslv_player_list"
+						android:id="@+id/mPlayersListView"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="30dp"
@@ -57,7 +57,7 @@
 	</ScrollView>
 	
 	<Button
-			android:id="@+id/btn_add_player"
+			android:id="@+id/mAddPlayersButton"
 			android:layout_width="wrap_content"
 			android:layout_height="30dp"
 			android:layout_centerHorizontal="true"

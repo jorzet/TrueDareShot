@@ -16,7 +16,7 @@
 
 package com.jorzet.truedareshot.ui.activities
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * @author Jorge Zepeda Tinoco

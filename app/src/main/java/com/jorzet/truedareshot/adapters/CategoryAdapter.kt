@@ -17,8 +17,8 @@
 package com.jorzet.truedareshot.adapters
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,7 +71,7 @@ class CategoryAdapter(context: Context, categories: List<Category>, configuratio
         val subcategoryAdapter = SubcategoryAdapter(category.subcategoriesList, category.categoryId, mConfiguration)
         subcategoryAdapter.setOnSubcategorySelectedListener(mOnSubcategorySelectedListener)
         holder.mSubcategoryConfig.adapter = subcategoryAdapter
-        holder.mSubcategoryConfig.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+        holder.mSubcategoryConfig.layoutManager = LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
 
         when(category.categoryId) {
             "true" -> {

@@ -17,18 +17,13 @@
 package com.jorzet.truedareshot.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.TextView
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.adapters.PlayersAdapter
-import com.jorzet.truedareshot.components.NonScrollListView
 import com.jorzet.truedareshot.models.Player
 import com.jorzet.truedareshot.models.enums.DialogType
 import com.jorzet.truedareshot.presenters.player.PlayersPresenter
@@ -36,6 +31,8 @@ import com.jorzet.truedareshot.presenters.player.PlayersPresenterImp
 import com.jorzet.truedareshot.ui.dialogs.AddEditPlayerDialog
 import com.jorzet.truedareshot.ui.dialogs.BaseDialog
 import com.jorzet.truedareshot.views.PlayersView
+
+import kotlinx.android.synthetic.main.players_fragment.*
 
 /**
  * @author Jorge Zepeda Tinoco
@@ -52,14 +49,6 @@ private const val REQUEST_ADD_PLAYER: Int = 0x22
 private const val REQUEST_EDIT_PLAYER: Int = 0x23
 
 class PlayersFragment: BaseFragment(), PlayersView, BaseDialog.OnDialogListener {
-
-    /*
-     * UI accessors
-     */
-    private lateinit var mPlayersTextView: TextView
-    private lateinit var mNotPlayersTextView: TextView
-    private lateinit var mPlayersListView: NonScrollListView
-    private lateinit var mAddPlayersButton: Button
 
     /**
      * Adapters
@@ -83,11 +72,6 @@ class PlayersFragment: BaseFragment(), PlayersView, BaseDialog.OnDialogListener 
         }
 
         val rootView = inflater.inflate(R.layout.players_fragment, container, false)
-
-        mPlayersTextView = rootView.findViewById(R.id.tv_players)
-        mNotPlayersTextView = rootView.findViewById(R.id.tv_not_players)
-        mPlayersListView = rootView.findViewById(R.id.nslv_player_list)
-        mAddPlayersButton = rootView.findViewById(R.id.btn_add_player)
 
         mAddPlayersButton.setOnClickListener(mAddPlayersButtonListener)
 
@@ -126,7 +110,7 @@ class PlayersFragment: BaseFragment(), PlayersView, BaseDialog.OnDialogListener 
     }
 
     override fun showPlayerList(showPlayers: Boolean) {
-        if (::mNotPlayersTextView.isInitialized && ::mPlayersListView.isInitialized) {
+        if (mNotPlayersTextView != null && mPlayersListView != null) {
             Log.d(TAG, "show player list $showPlayers")
             if (showPlayers) {
                 mNotPlayersTextView.visibility = View.GONE

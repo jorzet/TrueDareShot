@@ -53,10 +53,10 @@ class PlayersTask: AbstractRequestTask<Void, List<Player>>() {
                 val map = (post as HashMap<*, *>)
                 Log.d(TAG, "players size: " + map.size)
                 val players = ArrayList<Player>()
-                for (key in map.keys) {
-                    val playerMap = map[key] as HashMap<*, *>
+                map.keys.forEach {
+                    val playerMap = map[it] as HashMap<*, *>
                     val player = Gson().fromJson(JSONObject(playerMap).toString(), Player::class.java)
-                    player.playerId = key.toString()
+                    player.playerId = it.toString()
                     players.add(player)
                 }
 

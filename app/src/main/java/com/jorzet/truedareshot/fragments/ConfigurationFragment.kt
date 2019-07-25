@@ -18,11 +18,11 @@ package com.jorzet.truedareshot.fragments
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.adapters.CategoryAdapter
 import com.jorzet.truedareshot.adapters.SubcategoryAdapter
@@ -30,6 +30,8 @@ import com.jorzet.truedareshot.models.Category
 import com.jorzet.truedareshot.presenters.configuration.ConfigurationPresenter
 import com.jorzet.truedareshot.presenters.configuration.ConfigurationPresenterImp
 import com.jorzet.truedareshot.views.ConfigurationView
+
+import kotlinx.android.synthetic.main.configuration_fragment.*
 
 /**
  * @author Jorge Zepeda Tinoco
@@ -43,11 +45,6 @@ import com.jorzet.truedareshot.views.ConfigurationView
 private const val TAG : String = "ConfigurationFragment"
 
 class ConfigurationFragment: BaseFragment(), ConfigurationView {
-
-    /**
-     * UI accessors
-     */
-    private lateinit var mConfigurationRecyclerView: RecyclerView
 
     /**
      * Adapter
@@ -71,8 +68,6 @@ class ConfigurationFragment: BaseFragment(), ConfigurationView {
         }
 
         val rootView = inflater.inflate(R.layout.configuration_fragment, container, false)
-
-        mConfigurationRecyclerView = rootView.findViewById(R.id.rv_configuration)
 
         return rootView
     }
@@ -101,6 +96,6 @@ class ConfigurationFragment: BaseFragment(), ConfigurationView {
         mCategoryAdapter = CategoryAdapter(context!!, categories, config)
         mCategoryAdapter.setOnSubcategorySelectedListener(mOnSubcategorySelectedListener)
         mConfigurationRecyclerView.adapter = mCategoryAdapter
-        mConfigurationRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        mConfigurationRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
     }
 }

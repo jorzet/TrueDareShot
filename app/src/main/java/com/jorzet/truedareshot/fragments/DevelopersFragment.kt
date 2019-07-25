@@ -31,7 +31,7 @@ import com.jorzet.truedareshot.R
 /**
  * Constants
  */
-private const val TAG : String = "AddQuestionFragment"
+private const val TAG: String = "AddQuestionFragment"
 
 class DevelopersFragment: BaseFragment() {
 

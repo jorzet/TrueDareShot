@@ -17,9 +17,10 @@
 package com.jorzet.truedareshot.ui.activities
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
 import android.widget.ImageView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.jorzet.truedareshot.R
 
 import com.jorzet.truedareshot.adapters.ViewPagerAdapter

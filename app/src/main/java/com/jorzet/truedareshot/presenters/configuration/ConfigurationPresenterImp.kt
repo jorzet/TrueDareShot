@@ -16,7 +16,6 @@
 
 package com.jorzet.truedareshot.presenters.configuration
 
-import com.jorzet.truedareshot.adapters.SubcategoryAdapter
 import com.jorzet.truedareshot.models.Category
 import com.jorzet.truedareshot.models.Subcategory
 import com.jorzet.truedareshot.managers.firebase.FirebaseRequestManager

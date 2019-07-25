@@ -18,13 +18,13 @@ package com.jorzet.truedareshot.ui.dialogs
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.models.enums.DialogType
 import com.jorzet.truedareshot.utils.Utils

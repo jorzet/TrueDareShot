@@ -58,8 +58,8 @@ class CategoriesTask: AbstractRequestTask<Void, List<Category>>() {
                 val categories = ArrayList<Category>()
                 Log.d(TAG, "subcategories size: " + list.size)
 
-                for (item in list) {
-                    val itemMap = item as HashMap<*, *>
+                list.forEach {
+                    val itemMap = it as HashMap<*, *>
                     val category = Gson().fromJson(JSONObject(itemMap).toString(), Category::class.java)
                     categories.add(category)
                 }

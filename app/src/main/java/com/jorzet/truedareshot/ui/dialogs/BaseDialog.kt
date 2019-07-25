@@ -20,9 +20,9 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.models.enums.DialogType
 

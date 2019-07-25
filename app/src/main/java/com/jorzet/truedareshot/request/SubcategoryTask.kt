@@ -56,10 +56,10 @@ class SubcategoryTask: AbstractRequestTask<Void, List<Subcategory>>() {
                 val map = (post as HashMap<*, *>)
                 Log.d(TAG, "subcategories size: " + map.size)
                 val subcategories = ArrayList<Subcategory>()
-                for (key in map.keys) {
-                    val subcategoryMap = map[key] as kotlin.collections.HashMap<*, *>
+                map.keys.forEach {
+                    val subcategoryMap = map[it] as kotlin.collections.HashMap<*, *>
                     val subcategory = Gson().fromJson(JSONObject(subcategoryMap).toString(), Subcategory::class.java)
-                    subcategory.subcategoryId = key.toString()
+                    subcategory.subcategoryId = it.toString()
                     subcategories.add(subcategory)
                 }
 

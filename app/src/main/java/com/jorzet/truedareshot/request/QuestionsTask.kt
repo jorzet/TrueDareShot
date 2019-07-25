@@ -69,9 +69,9 @@ class QuestionsTask(category: String, subcategory: String): AbstractRequestTask<
                 val list = (post as List<*>)
                 val questions = arrayListOf<Question>()
 
-                for (item in list) {
-                    if (item != null) {
-                        val itemMap = item as HashMap<*, *>
+                list.forEach {
+                    if (it != null) {
+                        val itemMap = it as HashMap<*, *>
                         val question = Gson().fromJson(JSONObject(itemMap).toString(), Question::class.java)
                         if (question != null && question.subcategory == mSubcategory) {
                             questions.add(question)

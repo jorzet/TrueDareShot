@@ -19,16 +19,17 @@ package com.jorzet.truedareshot.fragments
 import android.app.Activity
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import com.jorzet.truedareshot.R
 import com.jorzet.truedareshot.models.enums.QuestionType
 import com.jorzet.truedareshot.presenters.question.QuestionPresenter
 import com.jorzet.truedareshot.presenters.question.QuestionPresenterImp
 import com.jorzet.truedareshot.views.QuestionView
+
+import kotlinx.android.synthetic.main.questions_fragment.*
 
 /**
  * @author Jorge Zepeda Tinoco
@@ -36,24 +37,12 @@ import com.jorzet.truedareshot.views.QuestionView
  * @date 08/11/18.
  */
 
+/**
+ * Constants
+ */
+private const val TAG: String = "QuestionFragment"
+
 class QuestionFragment: BaseFragment(), QuestionView {
-
-    /**
-     * Tags
-     */
-    private val TAG : String = "QuestionFragment"
-
-    /**
-     * UI accessors
-     */
-    private lateinit var mQuestionType: TextView
-    private lateinit var mUserName: TextView
-    private lateinit var mQuestionLevel: TextView
-    private lateinit var mQuestionText: TextView
-    private lateinit var mButtonWaitingContainer: View
-    private lateinit var mTrueButton: Button
-    private lateinit var mShotButton: Button
-    private lateinit var mDareButton: Button
 
     /**
      * Presenter
@@ -73,15 +62,6 @@ class QuestionFragment: BaseFragment(), QuestionView {
 
         val rootView = inflater.inflate(R.layout.questions_fragment, container, false)
 
-        mQuestionType = rootView.findViewById(R.id.tv_question_type)
-        mUserName = rootView.findViewById(R.id.tv_user)
-        mQuestionLevel = rootView.findViewById(R.id.tv_question_level)
-        mQuestionText = rootView.findViewById(R.id.tv_question_text)
-        mButtonWaitingContainer = rootView.findViewById(R.id.rl_button_is_waitin_container)
-        mTrueButton = rootView.findViewById(R.id.btn_true_image)
-        mShotButton = rootView.findViewById(R.id.btn_shot_image)
-        mDareButton = rootView.findViewById(R.id.btn_dare_image)
-
         mTrueButton.setOnClickListener(mTrueButtonListener)
         mShotButton.setOnClickListener(mShotButtonListener)
         mDareButton.setOnClickListener(mDareButtonListener)
@@ -96,17 +76,19 @@ class QuestionFragment: BaseFragment(), QuestionView {
     }
 
     private val mTrueButtonListener = View.OnClickListener {
-
+        Log.d(TAG, "true button")
         setFirstQuestionShown(true)
         mQuestionPresenter.updateQuestionView(QuestionType.TRUE)
     }
 
     private val mShotButtonListener = View.OnClickListener {
+        Log.d(TAG, "shot button")
         setFirstQuestionShown(true)
         mQuestionPresenter.updateQuestionView(QuestionType.SHOT)
     }
 
     private val mDareButtonListener = View.OnClickListener {
+        Log.d(TAG, "dare button")
         setFirstQuestionShown(true)
         mQuestionPresenter.updateQuestionView(QuestionType.DARE)
     }
@@ -116,41 +98,41 @@ class QuestionFragment: BaseFragment(), QuestionView {
     }
 
     override fun showQuestionText() {
-        if (::mButtonWaitingContainer.isInitialized)
+        if (mButtonWaitingContainer != null)
             mButtonWaitingContainer.visibility = View.GONE
 
-        if (::mQuestionLevel.isInitialized)
+        if (mQuestionLevel != null)
             mQuestionLevel.visibility = View.GONE
 
-        if (::mQuestionText.isInitialized)
+        if (mQuestionText != null)
             mQuestionText.visibility = View.VISIBLE
     }
 
     override fun showButtonIsWaiting() {
-        if (::mButtonWaitingContainer.isInitialized)
+        if (mButtonWaitingContainer != null)
             mButtonWaitingContainer.visibility = View.VISIBLE
 
-        if (::mQuestionLevel.isInitialized)
+        if (mQuestionLevel != null)
             mQuestionLevel.visibility = View.GONE
 
-        if (::mQuestionText.isInitialized)
+        if (mQuestionText != null)
             mQuestionText.visibility = View.GONE
     }
 
     override fun updateQuestionType(questionType: String) {
-        if (::mQuestionType.isInitialized) {
+        if (mQuestionType != null) {
             mQuestionType.text = questionType
         }
     }
 
     override fun setCurrentPlayerName(currentPlayer: String) {
-        if (::mUserName.isInitialized) {
+        if (mUserName != null) {
             mUserName.text = currentPlayer
         }
     }
 
     override fun setQuestionText(questionText: String) {
-        if (::mQuestionText.isInitialized) {
+        if (mQuestionText != null) {
             mQuestionText.text = questionText
         }
     }

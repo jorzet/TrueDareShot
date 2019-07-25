@@ -16,7 +16,7 @@
 				android:layout_height="wrap_content">
 			
 			<TextView
-					android:id="@+id/tv_question_type"
+					android:id="@+id/mQuestionType"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_centerHorizontal="true"
@@ -29,7 +29,7 @@
 					android:id="@+id/tv_turn"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_below="@+id/tv_question_type"
+					android:layout_below="@+id/mQuestionType"
 					android:layout_marginTop="10dp"
 					android:layout_marginStart="30dp"
 					android:layout_marginLeft="30dp"
@@ -38,10 +38,10 @@
 					android:text="@string/turn_text"/>
 			
 			<TextView
-					android:id="@+id/tv_user"
+					android:id="@+id/mUserName"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_below="@+id/tv_question_type"
+					android:layout_below="@+id/mQuestionType"
 					android:layout_toRightOf="@+id/tv_turn"
 					android:layout_toEndOf="@+id/tv_turn"
 					android:layout_marginTop="10dp"
@@ -55,7 +55,7 @@
 					android:id="@+id/rl_question_container"
 					android:layout_width="match_parent"
 					android:layout_height="300dp"
-					android:layout_below="@+id/tv_user"
+					android:layout_below="@+id/mUserName"
 					android:layout_marginTop="30dp"
 					android:layout_marginEnd="30dp"
 					android:layout_marginRight="30dp"
@@ -65,7 +65,7 @@
 				
 				
 				<TextView
-						android:id="@+id/tv_question_level"
+						android:id="@+id/mQuestionLevel"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_centerHorizontal="true"
@@ -76,10 +76,10 @@
 						android:visibility="gone"/>
 				
 				<TextView
-						android:id="@+id/tv_question_text"
+						android:id="@+id/mQuestionText"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_below="@+id/tv_question_level"
+						android:layout_below="@+id/mQuestionLevel"
 						android:layout_centerHorizontal="true"
 						android:layout_centerVertical="true"
 						android:gravity="center"
@@ -89,10 +89,10 @@
 						android:visibility="gone"/>
 				
 				<LinearLayout
-						android:id="@+id/rl_button_is_waitin_container"
+						android:id="@+id/mButtonWaitingContainer"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_below="@+id/tv_question_level"
+						android:layout_below="@+id/mQuestionLevel"
 						android:layout_marginTop="20dp"
 						android:layout_centerHorizontal="true"
 						android:layout_centerVertical="true"
@@ -129,19 +129,19 @@
 					android:layout_centerHorizontal="true">
 				
 				<Button
-						android:id="@+id/btn_true_image"
+						android:id="@+id/mTrueButton"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:background="@drawable/botton_true"/>
 				
 				<Button
-						android:id="@+id/btn_shot_image"
+						android:id="@+id/mShotButton"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:background="@drawable/botton_shot"/>
 				
 				<Button
-						android:id="@+id/btn_dare_image"
+						android:id="@+id/mDareButton"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:background="@drawable/botton_dare"/>
