@@ -55,24 +55,17 @@ class QuestionFragment: BaseFragment(), QuestionView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        if (container == null) {
-            return null
-        }
-
-        val rootView = inflater.inflate(R.layout.questions_fragment, container, false)
-
-        mTrueButton.setOnClickListener(mTrueButtonListener)
-        mShotButton.setOnClickListener(mShotButtonListener)
-        mDareButton.setOnClickListener(mDareButtonListener)
-
-        return rootView
+        return inflater.inflate(R.layout.questions_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (::mQuestionPresenter.isInitialized)
             mQuestionPresenter.create(this)
+
+        mTrueButton.setOnClickListener(mTrueButtonListener)
+        mShotButton.setOnClickListener(mShotButtonListener)
+        mDareButton.setOnClickListener(mDareButtonListener)
     }
 
     private val mTrueButtonListener = View.OnClickListener {

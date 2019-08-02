@@ -62,14 +62,7 @@ class ConfigurationFragment: BaseFragment(), ConfigurationView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        if (container == null) {
-            return null
-        }
-
-        val rootView = inflater.inflate(R.layout.configuration_fragment, container, false)
-
-        return rootView
+        return inflater.inflate(R.layout.configuration_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

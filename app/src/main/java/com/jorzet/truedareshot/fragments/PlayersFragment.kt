@@ -66,22 +66,16 @@ class PlayersFragment: BaseFragment(), PlayersView, BaseDialog.OnDialogListener 
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        if (container == null) {
-            return null
-        }
-
-        val rootView = inflater.inflate(R.layout.players_fragment, container, false)
-
-        mAddPlayersButton.setOnClickListener(mAddPlayersButtonListener)
-
-        return rootView
+        return inflater.inflate(R.layout.players_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         if (::mPlayersPresenter.isInitialized)
             mPlayersPresenter.create(this)
+
+        mAddPlayersButton.setOnClickListener(mAddPlayersButtonListener)
     }
 
     private val mAddPlayersButtonListener = View.OnClickListener {
